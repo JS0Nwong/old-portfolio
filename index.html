@@ -31,37 +31,30 @@
 
         <main data-barba="container" data-barba-namespace="home">
             <div class="border-box container-fluid">
-
-                <div class="row">
-                    <div class="col-lg-2 logo-wrapper my-5 mx-auto">
+                <div class="row" id = "row1">
+                    <div class="col-md-2 logo-wrapper my-5 mx-auto">
                         <h1 class="logo">j<span class = "color-change">/</span>w</h1>
                     </div>
-                    <div class="col-lg-6 spacer"></div>
-                    <div class="col-lg-4 nav-wrapper my-5">
+                    <div class="col-md-6 spacer" id = "spacer"></div>
+                    <div class="col-md-4 nav-wrapper my-5">
                         <nav class="nav-bar">
-                            <div class="menu-container">
-                                <span class="menu">
-                                    <span class="menu-inner">
-                                        <span class="menu-line"></span>
-                                        <span class="menu-line"></span>
-                                    </span>
-                                </span>
+                            <div class="menu">
+                                <div class="menu-line"></div>
+                                <div class="menu-line"></div>
                             </div>
-                            <div class="nav-inner">
-                                <ul>
-                                    <li class = "link  current-page mx-3"><a href="#">Home</a></li>
-                                    <li class = "link  mx-3"><a href="about.html">About</a></li>
-                                    <li class = "link  mx-3"><a href="works.html">Works</a></li>
-                                    <li class = "link  mx-3"><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </div>
+                            <ul class = "nav-links">
+                                <li class = "link current-page mx-3"><a href="#">Home</a></li>
+                                <li class = "link mx-3"><a href="about.html">About</a></li>
+                                <li class = "link mx-3"><a href="works.html">Works</a></li>
+                                <li class = "link mx-3"><a href="contact.html">Contact</a></li>
+                            </ul>
                         </nav>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-2 spacer"></div>
-                    <div class="col-lg-8 my-auto center-content">
+                <div class="row" id = "row2">
+                    <div class="col-md-2 spacer"></div>
+                    <div class="col-md-8 my-auto center-content">
                         <div class="message-wrapper">
                             <h1 class = "message">Hi there!👋<br>
                                 I'm <span class="color-change">Jason</span>, a rising junior <span class="color-change">passionate about web development</span> and <span class="color-change">software engineering</span>. 
@@ -88,19 +81,19 @@
                             </h1>
                         </div>
                     </div>
-                    <div class="col-lg-2 spacer"></div>
+                    <div class="col-md-2 spacer"></div>
                 </div>
             
-                <div class="row">
-                    <div class="links-container col-lg-3 my-5 mx-0">
+                <div class="row" id = "row3">
+                    <div class="links-container col-md-3 my-5 mx-0" id = "footer">
                         <ul class="links" id = "links">
                             <a href = "https://github.com/ShadowViper"><li class="link mx-3">GitHub</li></a>
                             <a href= "https://www.linkedin.com/in/jason-wong-/"><li class="link mx-3">LinkedIn</li></a>
                             <a href = ""><li class="link mx-3">Email</li></a>
                         </ul>
                     </div>
-                    <div class="col-lg-7 spacer"></div>
-                    <div class="col-lg-2 my-5"><button class="toggle" type="button" id = "colorChange" onclick="lightMode();">change theme</button></div>
+                    <div class="col-md-7 spacer"></div>
+                    <div class="col-md-2 my-5"><button class="toggle" type="button" id = "colorChange" onclick="lightMode();">change theme</button></div>
                 </div>
             </div>
         </main>
@@ -110,6 +103,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous"></script>
-    <script src = "index.js"></script>   
+    <script src = "index.js"></script>
 </body>
 </html>
