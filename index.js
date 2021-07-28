@@ -66,6 +66,10 @@ window.onload = function()
         break;
     }
   }
+  if(document.body.style.backgroundColor == '#ffffff')
+  {
+    button.classList.toggle('toggle-light');
+  }
 }
 
 //PROGRESS BAR
@@ -135,16 +139,33 @@ $(function () {
                   pageTransition();
                   await delay(1000);
                   done();
-              },
-
-              async enter(data) {
-                  contentAnimation();
-              },
-
-              async once(data) {
-                  contentAnimation();
-              },
+              }
           },
       ],
   });
 });
+
+//MENU TOGGLE
+const menu = document.querySelector(".menu");
+const navLinks = document.querySelector('.nav-links');
+const menuLines = document.querySelectorAll('.menu-line');
+const links = document.querySelectorAll('.nav-links li');
+
+menu.addEventListener("click", () => {
+  menuLines.forEach(line => {
+    line.classList.toggle('close');
+  })
+  links.forEach(link => {
+    link.classList.toggle('link-show');
+  })
+})
+
+
+//REMOVING BOOTSTRAP STYLING
+$(window).on('resize', function() {
+  if($(window).height() < 550)
+  {
+    $('#footer').addClass('footer-margin');
+    $($('.my-5')[2]).removeClass('my-5');
+  }
+})
