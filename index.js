@@ -1,37 +1,18 @@
+//COLORS TO BE USED
 var black = '#17141d';
 var green = '#21e465';
 var white = '#ffffff';
-
 var blue = "#6495ED";
 
-//THEME SWITCHER
-function lightMode()
-{
-  var body = document.getElementById('index') || document.getElementById('works') 
-  || document.getElementById('about') || document.getElementById('contact');
-  
-  body.classList.toggle("light-mode");
+//MENU GETTERS
+const menu = document.querySelector(".menu");
+const navLinks = document.querySelector('.nav-links');
+const menuLines = document.querySelectorAll('.menu-line');
+const links = document.querySelectorAll(".nav-links li");
 
-  var progresBar = document.getElementById('progress');
-  progresBar.classList.toggle("progress-bar-light");
+const changeTheme = document.getElementById("colorChange");
 
-  var top = document.getElementById('top');
-  top.classList.toggle("progress-light");
-
-  var bottom = document.getElementById('bottom');
-  bottom.classList.toggle("progress-light");
-
-  var left = document.getElementById('left');
-  left.classList.toggle("progress-light");
-  
-  var right = document.getElementById('right');
-  right.classList.toggle("progress-light");
-
-  document.getElementById('colorChange').innerHTML.toggle = 'change theme';
-
-  var button = document.getElementById('colorChange');
-  button.classList.toggle('toggle-light');
-}
+changeTheme.addEventListener("click", lightMode);
 
 //CSS LOADER
 window.onload = function()
@@ -70,6 +51,76 @@ window.onload = function()
   {
     button.classList.toggle('toggle-light');
   }
+}
+
+//THEME SWITCHER
+function lightMode()
+{
+  var body = document.getElementById('index') || document.getElementById('works') 
+  || document.getElementById('about') || document.getElementById('contact');
+  
+  body.classList.toggle("light-mode");
+  
+  if(document.getElementById('progress'))
+  {
+    var progresBar = document.getElementById('progress');
+    progresBar.classList.toggle("progress-bar-light");
+  }
+
+  var top = document.getElementById('top');
+  top.classList.toggle("progress-light");
+
+  var bottom = document.getElementById('bottom');
+  bottom.classList.toggle("progress-light");
+
+  var left = document.getElementById('left');
+  left.classList.toggle("progress-light");
+  
+  var right = document.getElementById('right');
+  right.classList.toggle("progress-light");
+
+  document.getElementById('colorChange').innerHTML.toggle = 'change theme';
+
+  var button = document.getElementById('colorChange');
+  button.classList.toggle('toggle-light');
+
+  var menu = document.getElementById('menu-line');
+  menu.classList.toggle('menu-light');
+
+  var menu = document.getElementById('menu-line-1');
+  menu.classList.toggle('menu-light');
+
+  var navLinks = document.querySelector('.nav-links');
+  navLinks.classList.toggle('nav-light')
+}
+
+//MENU TOGGLE
+menu.addEventListener("click", menuToggle); 
+
+function menuToggle()
+{
+  menuLines.forEach(line => {
+    line.classList.toggle('opened');
+  });
+  navLinks.classList.toggle("opened");
+
+  /*const pageLinks = ['index.html', 'about.html', 'works.html', 'contact.html'];
+  const category = ['Home', 'About', 'Works', 'Contact'];
+
+  for(let i = 0; i < pageLinks.length; i++)
+  {
+    var listItem = document.createElement('li');
+    listItem.innerHTML = category[i];
+    listItem.className = "link mx-3";
+    var listLink = document.createElement('a');
+    listLink.href = pageLinks[i];
+    listItem.appendChild(listLink);
+    navLinks.appendChild(listItem);
+  }*/
+
+  links.forEach(link => {
+    link.classList.toggle("opened");
+  });
 }
 
 //PROGRESS BAR
@@ -143,23 +194,7 @@ $(function () {
           },
       ],
   });
-});
-
-//MENU TOGGLE
-const menu = document.querySelector(".menu");
-const navLinks = document.querySelector('.nav-links');
-const menuLines = document.querySelectorAll('.menu-line');
-const links = document.querySelectorAll('.nav-links li');
-
-menu.addEventListener("click", () => {
-  menuLines.forEach(line => {
-    line.classList.toggle('close');
-  })
-  links.forEach(link => {
-    link.classList.toggle('link-show');
-  })
-})
-
+}); 
 
 //REMOVING BOOTSTRAP STYLING
 $(window).on('resize', function() {

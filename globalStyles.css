@@ -112,7 +112,10 @@ body{
     letter-spacing: 10px;
     position: fixed;
 }
-
+.back-home:hover
+{
+    color:white;
+}
 /*NAVBAR RIGHT SIDE*/
 .menu
 {
@@ -130,35 +133,27 @@ body{
     margin: 10px;
     transition: .15s ease;
 }
-.menu-line:nth-child(1) 
-{
-    transform: translateY(7px) translateX(-7px) rotate(45deg);
-}
-.menu-line:nth-child(2)
-{
-    transform:  translateY(-7px) translateX(7px) rotate(45deg);
-}
 .menu:hover .menu-line:nth-child(1)
 {
     background: var(--blue);
-    transform:  translateX(2px);
+    transform:  translateY(12px);
 }
 .menu:hover .menu-line:nth-child(2)
 {
     background: var(--blue);
-    transform: translateX(2px);
+    transform: translateY(-12px);
 }
-.menu-line.close
+.menu-line.opened
 {
-    background: var(--blue);
+    background: var(--white);
 }
-.menu-line.close:nth-child(1)
+.menu-line.opened:nth-child(1)
 {
     transform: translateY(7px) translateX(-7px) rotate(45deg);
 }
-.menu-line.close:nth-child(2)
+.menu-line.opened:nth-child(2)
 {
-    transform:  translateY(-7px) translateX(7px) rotate(45deg);
+    transform: translateY(-7px) translateX(7px) rotate(45deg);
 }
 
 .nav-links
@@ -169,6 +164,28 @@ body{
     list-style: none;
     transition: .2s ease;
 }
+.nav-links li{
+    opacity: 0;
+    transition: .1s cubic-bezier(.45,.01,.49,1);
+}
+li.opened{
+    opacity: 1;
+}
+.nav-links li:nth-child(1) 
+{
+    transition-delay: 150ms;
+}
+.nav-links li:nth-child(2) 
+{
+    transition-delay: 100ms;
+}
+.nav-links li:nth-child(3) 
+{
+    transition-delay: 50ms;
+}
+
+
+
 .nav-inner ul
 {
     list-style: none;
@@ -179,7 +196,6 @@ body{
     color: var(--blue);
     transition: .3s ease;
 }
-
 
 /*FOOTER LINKS*/
 a
@@ -241,7 +257,6 @@ a:hover
     background-color: transparent;
     color: white;
 }
-
 
 /*--------------------PROGRESS BAR--------------------*/
 .progress-container
@@ -314,7 +329,7 @@ a:hover
 }
 /*----------------END OF WORKS PAGE CSS---------------------*/
 
-/*--------------------ABOUT PAGE CSS-------------------------*/
+/*------------------------ABOUT PAGE CSS------------------------*/
 .title
 {
     font-size: 3rem;
@@ -324,10 +339,10 @@ a:hover
 {
     font-size: 2rem;
 }
-/*----------------END OF ABOUT PAGE CSS---------------------*/
+/*------------------------END OF ABOUT PAGE CSS------------------------*/
 
-/*----------MEDIA QUERIES----------*/
-@media only screen and (max-width: 552px)
+/*------------------------MEDIA QUERIES------------------------*/
+@media only screen and (max-width: 768px)
 {
     body
     {
@@ -362,20 +377,84 @@ a:hover
         align-items: center;
     } 
     /*MENU BAR MEDIA QUERIES*/
+    .menu
+    {
+        z-index: 4;
+    }
+    .menu-line.opened
+    {
+        background: var(--black);
+    }
     .nav-links
     {
-        position: absolute;
-        top: 0;
+        position: fixed;
+        top: -50px;
         right: 0;
-        background-color: var(--black);
         flex-direction: column;
+        justify-content: space-around;
+        background: var(--white);
+        z-index: 3;
 
         height: 100vh;
         width: 100%;
+
+        clip-path: polygon(0 0, 100% 0, 100% 0%, 0% 0%);
+        -webkit-clip-path: polygon(0px at 90% 10%);
+        transition:  .25s cubic-bezier(.36,.03,.37,.99);
+        pointer-events: none;
     }
-    .nav-links li a
+    .nav-links.opened
+    {
+        clip-path: polygon(100% 100%, 100% 0, 100% 100%, 100% 0%);
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        pointer-events: all;
+    }
+    .nav-links li 
+    {
+        opacity: 0;
+    }
+    .nav-links li a 
+    {
+        font-size: 25px;
+    }
+    .nav-links li:nth-child(1) 
+    {
+        transition: all 0.3s cubic-bezier(.45,.01,.49,1);
+    }
+    .nav-links li:nth-child(2) 
+    {
+        transition: all 0.3s cubic-bezier(.45,.01,.49,1);
+    }
+    .nav-links li:nth-child(3) 
+    {
+        transition: all 0.3s cubic-bezier(.45,.01,.49,1);
+    }
+    li.opened 
+    {
+        opacity: 1;
+    }
+    li.opened .menu
+    {
+        position: fixed;
+    }
+
+    .nav-links a
+    {
+        color: var(--blue);
+    }
+    .current-page a
     {
         color: var(--black);
+        transition: .3s ease;
+    }
+    .nav-links a:hover
+    {
+        text-decoration: none;
+        color: var(--black);
+    }
+    .link::after, .link::before
+    {
+        background-color: var(--black);
     }
     /*WORKS PAGE MEDIA QUERIES*/
     .category
@@ -389,27 +468,20 @@ a:hover
         letter-spacing: 0px;
         text-align: center;
     }
-    .whitespace
-    {
-        bottom: 0;
-        left: 0;
-        background-color: var(--blue);
-        height: 2px;
-        width: 75%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 1rem auto 1rem auto;
-    }
     /*CONTACT PAGE MEDIA QUERIES*/
     .email
     {
         font-size: 1.3rem;
     }
+    /*LOADING SCREEN*/
+    .loading-screen
+    {
+        background-color: var(--white);
+    }
 }
-/*----------END OF MEDIA QUERIES----------*/
+/*------------------------END OF MEDIA QUERIES------------------------*/
 
-/*LIGHT MODE*/
+/*------------------------LIGHT MODE------------------------*/
 .light-mode
 {
     background-color: var(--white);
@@ -426,6 +498,27 @@ a:hover
     background: var(--black);
     transition: .25s ease;
 }
+.menu-light
+{
+    background: var(--black);
+}
+.menu-light.opened
+{
+    background: var(--black);
+}
+/*NAV LIGHT MODE*/
+.nav-light a
+{
+    color: var(--black);
+}
+.nav-light a:hover
+{
+    color: var(--blue);
+}
+.link::after, .link::before
+{
+    background-color: var(--blue);
+}
 .progress-bar-light
 {
     background: var(--blue);
@@ -436,6 +529,7 @@ a:hover
     color: var(--black);
     transition: .25s ease;
 }
+/*------------------------END OF LIGHT MODE------------------------*/
 
 /*------------------------PAGE TRANSITION------------------------*/
 .loading-screen 
@@ -461,7 +555,3 @@ a:hover
     pointer-events: none;
 }
 /*------------------------END OF PAGE TRANSITION------------------------*/
-
-/*------------------------MENU BAR------------------------*/
-
-/*------------------------END OF MENU BAR------------------------*/
