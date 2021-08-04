@@ -124,6 +124,7 @@ body{
     top: 10%;
     right: 6%;
     z-index: 2;
+    display: none;
 }
 .menu-line
 {
@@ -165,7 +166,6 @@ body{
     transition: .2s ease;
 }
 .nav-links li{
-    opacity: 0;
     transition: .1s cubic-bezier(.45,.01,.49,1);
 }
 li.opened{
@@ -380,6 +380,7 @@ a:hover
     .menu
     {
         z-index: 4;
+        display: block;
     }
     .menu-line.opened
     {

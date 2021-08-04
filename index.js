@@ -196,6 +196,16 @@ $(function () {
   });
 }); 
 
+//EMAIL BUTTON
+$(function(){
+   $('.email').click(function(event) {
+     var email = "Jason.Wong47@myhunter.cuny.edu";
+     var attach = "path";
+
+     document.location = "mailto:" + email + "?attach=" + attach;
+   });
+});
+
 //REMOVING BOOTSTRAP STYLING
 $(window).on('resize', function() {
   if($(window).height() < 550)
