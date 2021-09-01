@@ -93,6 +93,21 @@ section
     justify-content: space-evenly;
 
 }
+.img-container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 300;
+    font-size: 1.7rem;
+}
+.dog-img
+{
+    padding: 19px;
+    width: 55%;
+}
 /*SCROLLBAR*/
 ::-webkit-scrollbar
 {
