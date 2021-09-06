@@ -1,0 +1,54 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body 
+{
+    font-family: 'Montserrat', sans-serif;
+    background-color: #17141d;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    height: 100vh;
+    text-align: center;
+    font-size: 1.3rem;
+}
+.title
+{
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-top: 1.2rem;
+}
+.random-title
+{
+    font-size: 1.7rem;
+    font-weight: 100;
+    margin-top: 1.2rem;
+}
+#generate
+{
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    background: none;
+    color: white;
+    border: 2px solid white;
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 15px;
+    font-weight: 500;
+
+    background-image: linear-gradient(to top, white 50%, transparent 50%);
+    background-size: 100% 200%;
+    background-position: top;
+    transition: background-position 0.15s ease-in-out; /** I've changed the time for demo purposes **/
+}
+#generate:hover
+{
+    background-position: bottom;
+    color: #17141d;
+}
