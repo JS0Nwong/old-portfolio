@@ -1,0 +1,69 @@
+body {
+  text-align: center;
+  transition: .15s ease;
+  font-family: 'Montserrat', sans-serif;
+  color: #222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+section {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.color-div {
+  height: 60px;
+  background-color: green;
+}
+
+video {
+  width: 60%;
+}
+.dark-mode
+{
+  background-color: #222222;
+}
+.content-color
+{
+  color: white;
+}
+.wacky-background
+{
+  background: linear-gradient(45deg, #EF476F, #FFD166, #06D6A0, #118AB2, #073B4C);
+  background-size: 200% 200%;
+  animation: gradient-animation 3s infinite alternate;
+}
+button
+{
+  background: none;
+  padding: 1.3rem;
+  outline: none;
+  border: 2px solid #222222;
+  font-weight: 600;
+}
+.dark-button
+{
+  border: 2px solid white;
+  color: white;
+}
+@keyframes gradient-animation
+{
+  0%
+  {
+    background-position: 0% 50%;
+  }
+  50%
+  {
+    background-position: 100% 50%;
+  }
+  100%
+  {
+    background-position: 0% 50%;
+  }
+}
