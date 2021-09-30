@@ -4,7 +4,7 @@ let myImages = [
 ]
 
 
-function addImages(imageArray) {
+/*function addImages(imageArray) {
   let container = O('image-container')
   //loop over our list of objects
     //inside the loop
@@ -25,6 +25,7 @@ function createImage(imageObject) {
   // create the element to add to the page
   // we're using a div so we can add things like captions to it
   let containerDiv = document.createElement("div")
+  let parentDiv = O('image-container')
   //set container class
   containerDiv.className = "image-container"
   //set container div styles
@@ -38,7 +39,17 @@ function createImage(imageObject) {
   S(img).width = imageObject.width
   //add the image to our container div
   containerDiv.appendChild(img)
+  parentDiv.appendChild(containerDiv)
   return containerDiv;
 }
 
-addImages(myImages)
+O('add-button').onclick = function() {
+  let input = O('add-image')
+  myImages.push(input.value)
+  console.log(myImages)
+  // call addImages again to display the new item
+  addImages(myImages)
+  input.value = ''
+}
+
+addImages(myImages)*/

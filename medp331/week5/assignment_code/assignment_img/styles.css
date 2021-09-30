@@ -14,8 +14,8 @@ section {
 
 .image-container {
   display: grid;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
+  grid-template-columns: repeat(3, 33%);
+  background-color: violet;
 }
 .add-button
 {
