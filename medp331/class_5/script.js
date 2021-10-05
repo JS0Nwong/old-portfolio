@@ -1,3 +1,4 @@
+//image object with default values
 let myImages = [
     { 'src': 'https://images.unsplash.com/photo-1632947261925-16d757bbda24?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60', 
     'caption': 'A special lad'}, 
@@ -5,12 +6,21 @@ let myImages = [
     'caption': 'A floofy boi'},
 ]
 
+/*
+*   Some random images that you can add
+*   https://images.unsplash.com/photo-1633432695394-71dfae0194e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80
+*   https://images.unsplash.com/photo-1633202298548-90ddcf5ea815?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1132&q=80
+*   https://images.unsplash.com/photo-1614988371870-0914d1cbd42f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80
+*/
+
+//randomly generates profile statistics to be appended to the page
 let profileStatistics = {
     "Posts": Math.floor(Math.random() * 100),
     "Followers": Math.floor(Math.random() * 1000000),
     "Following": Math.floor(Math.random() * 1000),
 }  
 
+//creates a paragraph tag to be appeneded to the page
 function createPara(category, statistic)
 {
     let p = document.createElement("p");
@@ -18,6 +28,7 @@ function createPara(category, statistic)
     return p;
 }
 
+//getter to get html tag
 let stat = O('statistics');
 let keys  = Object.keys(profileStatistics)
 for(let key of keys)
@@ -62,26 +73,41 @@ function createImage(imageObject) {
     return containerDiv;
 }
 
+//
 function addImage()
 {
+    //getters
     let imageInput = O('add-image');
     let captionInput = O('add-caption');
+
+    //sets img and caption to the user input values
     let img = imageInput.value;
     let caption = captionInput.value;
+
+    //image object
     let image = {
         src: img,
         caption: caption,
     }
     myImages.push(image);
-    updateImages(myImages[Object.keys(myImages)[Object.keys(myImages).length - 1]])
+
+    //calls updateImages functiont to update the page by adding the last image in the object to be shown
+    //on the page
+    updateImages(myImages[Object.keys(myImages)[Object.keys(myImages).length - 1]]);
     console.log('array: ', myImages);
+
+    //resets to default value
     imageInput.value = '';
     captionInput.value ='';
 }
+//
 function updateImages(imageUpdate) {
-    let container = O('image-container')
-    let image = createImage(imageUpdate)
+    //gets the html container and appends the user input image to it
+    let container = O('image-container');
+    let image = createImage(imageUpdate);
     container.appendChild(image);
+
+    //sets the image caption to the user input caption
     image.innerHTML += "<p class = 'caption'>" + imageUpdate.caption + "</p>";
 }
 
