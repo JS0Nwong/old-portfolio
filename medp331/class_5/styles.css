@@ -1,0 +1,104 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+body 
+{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background-color: #1d1c1f;
+    color: #efefef;
+}
+  
+h2 {
+text-align: center;
+}
+
+section {
+    margin: 20px auto;
+    text-align: center;
+}
+.grid-item
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-header
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.profile-image
+{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid ;
+}
+.user-info-container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.statistics
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.input-container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.add-button
+{
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    border: none;
+    background-color: #9c89ff;
+}
+img
+{
+    width: 300px;
+}
+.caption
+{
+    margin-top: .5rem;
+    font-weight: 500;
+}
+
+.spacer
+{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.line
+{
+    background: #efefef;
+    height: 1px;
+    width: 75%;
+}
+@media only screen and (max-width: 741px)
+{
+    .image-container
+    {
+        display: flex;
+        flex-direction: column;
+    }
+}
