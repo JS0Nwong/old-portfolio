@@ -18,7 +18,13 @@ $(function() {
 
 function searchPokemon()
 {
-    let pokemonName = $("#pokemon-search").val();
+    $("#pokemon-search").click(function() {
+        let pokemonName = $("#pokemon-search").val();
+        if(pokemonName !== '')
+        {
+
+        }
+    })   
 }
 
 function filterPokemons()
@@ -32,7 +38,6 @@ let container = document.getElementById("content-container");
 
 const fetchPokemons = async() =>
 {
-
     fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
      .then(response => response.json())
      .then(function(allpokemon)
@@ -42,31 +47,8 @@ const fetchPokemons = async() =>
             fetchData(pokemon); 
         })
     })
-    /*const url = "https://pokeapi.co/api/v2/pokemon?limit=898";
-    const response = await fetch(url)
-    const data = await response.json();
-
-    const pokemon = data.results.map((data, index) => ({
-        name: data.name,
-        id: data.id,
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
-        1}.png`,
-        type: data.types,
-
-    }))*/
 }
 
-/*const renderElements = (pokemon) => {
-    const pokemonString = pokemon.map((item) =>
-        `<li class = "card"> <img class = "pokemon-img" src = "${item.image}"/> 
-            <a>
-            <h2 class="pokemon-name">${item.name}</h2> 
-            </a> 
-        </li>`
-        )
-        .join('');
-        container.innerHTML = pokemonString; 
-};*/
 
 function fetchData(pokemon)
 {
@@ -100,18 +82,12 @@ function render(data)
 
     const sprite = document.createElement("img");
     sprite.setAttribute("src", data.sprites.front_default);
-    sprite.classList.add("pokemon-img")
-
+    sprite.classList.add("pokemon-img");
 
     name.innerText = data.name;
     number.innerHTML = `#${data.id}`;
 
-
     createTypes(data.types, type);
-    if(data.types == "poision")
-    {
-        type.classList.add("green");
-    }
 
     cardContainer.append(name, number, sprite, type);
     pokemonContainer.append(cardContainer);
@@ -130,14 +106,24 @@ function cardPopup(pokemon)
 {
     console.log(pokemon);
     const type = pokemon.types.map(type => type.type.name).join(", ");
+    
+    const move = pokemon.moves.map(move => move.move.name).join(", ");
+    const stat = pokemon.stats.map(stat => stat.stat.name).join(", ");
 
     const htmlString = ` 
-    <div class="popup"> 
+    <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()">Close</button> 
-        <div class="popup-card"> 
-            <h2 class="card-title">${pokemon.name}</h2> 
-            <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
-            <p><small>Type: ${type} | Height:</small> ${pokemon.height} | Weight: ${pokemon.weight}</p> 
+        <div class="popup-card">
+            <div class = "scroll-bar" id = "scrollbar"></div>
+            <div class = "card-content">
+                 <h2 class="card-title">${pokemon.name}</h2>
+                <p class = "stat">${stat}</p>
+                <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
+                <p class = "type">Type: ${type} | Height: ${pokemon.height} | Weight: ${pokemon.weight}</p>    
+                <div class = "move-set-container">
+                    <p class = "move">${move}</p>
+                </div>
+            </div>
         </div> 
     </div> `;
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
@@ -149,20 +135,31 @@ const closePopup = () =>
     popup.parentElement.removeChild(popup);
 }
 
+//helper function to display the stats of the pokemon
+function createStats(stats, p)
+{
+    stats.forEach(function(stat)
+    {
+        let statInfo = document.createElement('p');
+        statInfo.innerText = stat['stat']['name'];
+        p.append(statInfo);
+    })
+}
+
 //helper function to display the type of the pokemon
 function createTypes(types, div)
 {
     types.forEach(function(type)
     {
         let typeList = document.createElement('p');
-        if(type.name == "posion")
-        {
-            typeList.classList.add("green");
-        }
         typeList.innerText = type['type']['name'];
-        if(type)
         div.append(typeList);
     })
+}
+
+function cardScrollListener()
+{
+    let scrollbar = document.getElementById("scrollbar");
 }
 
 fetchPokemons();
