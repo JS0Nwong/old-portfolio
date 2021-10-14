@@ -34,8 +34,6 @@ function filterPokemons()
     })
 }
 
-let container = document.getElementById("content-container");
-
 const fetchPokemons = async() =>
 {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
@@ -49,7 +47,6 @@ const fetchPokemons = async() =>
     })
 }
 
-
 function fetchData(pokemon)
 {
     let url = pokemon.url;
@@ -58,7 +55,6 @@ function fetchData(pokemon)
     .then(response => response.json())
     .then(function(pokemondata)
     {
-        console.log(pokemondata);
         render(pokemondata);
     })
 }
@@ -108,18 +104,21 @@ function cardPopup(pokemon)
     const type = pokemon.types.map(type => type.type.name).join(", ");
     
     const move = pokemon.moves.map(move => move.move.name).join(", ");
+    
     const stat = pokemon.stats.map(stat => stat.stat.name).join(", ");
 
     const htmlString = ` 
     <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()">Close</button> 
-        <div class="popup-card">
-            <div class = "scroll-bar" id = "scrollbar"></div>
+        <div class="popup-card" id = "popup">
+            <div class = "scroll-bar-container">
+                <div class = "scroll-bar" id = "scrollbar"></div>
+            </div>
             <div class = "card-content">
-                 <h2 class="card-title">${pokemon.name}</h2>
-                <p class = "stat">${stat}</p>
+                <h2 class="card-title">${pokemon.name}</h2>
                 <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
-                <p class = "type">Type: ${type} | Height: ${pokemon.height} | Weight: ${pokemon.weight}</p>    
+                <p class = "type">Type: ${type} | Height: ${pokemon.height} | Weight: ${pokemon.weight}</p>
+                <p class = "stat">${stat}</p>    
                 <div class = "move-set-container">
                     <p class = "move">${move}</p>
                 </div>
@@ -157,9 +156,5 @@ function createTypes(types, div)
     })
 }
 
-function cardScrollListener()
-{
-    let scrollbar = document.getElementById("scrollbar");
-}
 
 fetchPokemons();

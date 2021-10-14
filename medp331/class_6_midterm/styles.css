@@ -112,7 +112,7 @@ body
 .pokemon-img
 {
     width: 150px;
-    height: 1500px;
+    height: 150px;
 }
 .types
 {
@@ -198,6 +198,10 @@ body
 {
     text-transform: capitalize;
 }
+.fire
+{
+    background-color: rgb(250, 164, 51);
+}
 /*-------------------MEDIA QUERIES-------------------*/
 @media only screen and (max-width: 1426px)
 {
@@ -254,17 +258,82 @@ body
 }
 
 /*-------------------SCROLLBAR-------------------*/
-.scroll-bar
-{
-    position: relative;
-    float: right;
-    width: 5px;
-    height: 0;
-    z-index: 3;
-    background-color: #17141d;
-    border-radius: 20px;
-}
 .popup-card::-webkit-scrollbar
 {
-    width: 0;
+    border-radius: 9px;
+}
+.popup-card::-webkit-scrollbar-track
+{
+    background-color: rgb(46, 46, 46);
+    border-radius: 19px;
+}
+.popup-card::-webkit-scrollbar-thumb
+{
+    background-color: rgb(177, 177, 177);
+    border-radius: 19px;
+}
+/*-------------------POKEMON BACKGROUNDS-------------------*/
+.fire
+{
+    background-color: #ffc965;
+}
+.water
+{
+    background-color: #65c1ff;
+}
+.flying
+{
+    background-color: #ad65ff;
+}
+.poison
+{
+    background-color: #7c11f7;
+}
+.bug
+{
+    background-color: #2fc780;
+}
+.normal
+{
+    background-color: #c4c4c4;
+}
+.fairy
+{
+    background-color: #f894e7;
+}
+.ground
+{
+    background-color: #7a6008;
+}
+.psychic
+{
+    background-color: rgb(238, 57, 178);
+}
+.fighting
+{
+    background-color: #f53e38;
+}
+.rock
+{
+    background-color: #ffd255b9;
+}
+.electric
+{
+    background-color: #fff67c;
+}
+.steel
+{
+    background-color: #a5a5a5;
+}
+.ice
+{
+    background-color: #92eafa;
+}
+.ghost
+{
+    background-color: #6b4e7e;
+}
+.grass
+{
+    background-color: #c9f781;
 }
