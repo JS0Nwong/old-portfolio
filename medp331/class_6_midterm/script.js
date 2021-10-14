@@ -16,6 +16,9 @@ $(function() {
     })
 })
 
+//CONTAINER TO STORE ALL THE POKEMON CARDS DISPLAYED ON THE SCREEN
+const pokemonContainer = document.getElementById("content-container");
+
 function searchPokemon()
 {
     $("#pokemon-search").click(function() {
@@ -27,12 +30,141 @@ function searchPokemon()
     })   
 }
 
-function filterPokemons()
+//FILTER KANTO
+document.getElementById('filter-kanto').addEventListener("click", function()
 {
-    $("filter-kanto").click(function(){
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
 
-    })
-}
+//FILTER JOHTO
+document.getElementById('filter-johto').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=100&offset=151')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER HOENN
+document.getElementById('filter-hoenn').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=135&offset=251')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER SINNOH
+document.getElementById('filter-sinnoh').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=107&offset=386')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER UNOVA
+document.getElementById('filter-unova').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=156&offset=493')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER KALOS
+document.getElementById('filter-kalos').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=72&offset=649')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER ALOLA
+document.getElementById('filter-alola').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=86&offset=721')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER GALAR
+document.getElementById('filter-galar').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=89&offset=809')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
+//FILTER ALL
+document.getElementById('filter-all').addEventListener("click", function()
+{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
+    .then(response => response.json())
+    .then(function(allpokemon)
+    {
+       allpokemon.results.forEach(function(pokemon)
+       {
+           fetchData(pokemon);
+           updatePage();
+       })
+   })
+})
+
 
 const fetchPokemons = async() =>
 {
@@ -59,13 +191,11 @@ function fetchData(pokemon)
     })
 }
 
-const pokemonContainer = document.getElementById("content-container");
-
 function render(data)
 {
     const cardContainer = document.createElement("div");
     cardContainer.classList.add('card');
-    cardContainer.setAttribute("onclick", `selectPokemon(${data.id})`)
+    cardContainer.setAttribute("onclick", `selectPokemon(${data.id})`);
 
     const name = document.createElement("h4");
     name.classList.add('pokemon-name');
@@ -156,5 +286,9 @@ function createTypes(types, div)
     })
 }
 
+function updatePage()
+{
+    pokemonContainer.innerHTML = "";
+}
 
 fetchPokemons();
