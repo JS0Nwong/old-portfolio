@@ -149,7 +149,7 @@ document.getElementById('filter-all').addEventListener("click", function()
 
 const fetchPokemons = async() =>
 {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151') // CHANGE THE LIMIT BACK TO 898 LATER 
      .then(response => response.json())
      .then(function(allpokemon)
      {
@@ -213,8 +213,14 @@ const selectPokemon = async id =>
 function cardPopup(pokemon)
 {
     const type = pokemon.types.map(type => type.type.name).join(", ");
-    const move = pokemon.moves.map(move => move.move.name).join(", ");
-    const stat = pokemon.stats.map(stat => stat.stat.name).join(", ");
+    const move = document.createElement('div');
+    const stat = document.createElement('div'); 
+    const ability = document.createElement('div');
+
+    getMoves(pokemon.id, move);
+    getStats(pokemon.id, stat);
+    getAbilities(pokemon.id, ability);
+    getEvolutionTree(pokemon.id)
 
     const htmlString = ` 
     <div class="popup container-fluid"> 
@@ -228,6 +234,7 @@ function cardPopup(pokemon)
                 <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
                 <p class = "type">Type: ${type} | Height: ${pokemon.height} | Weight: ${pokemon.weight}</p>
                 <p class = "stat">${stat}</p>    
+                <p class = "ability">
                 <div class = "move-set-container">
                     <p class = "move">${move}</p>
                 </div>
@@ -244,16 +251,59 @@ const closePopup = () =>
     popup.parentElement.removeChild(popup);
 }
 
-//helper function to display the stats of the pokemon
-function createStats(stats, p)
+function getMoves(id, htmlElement)
 {
-    stats.forEach(function(stat)
-    {
-        let statInfo = document.createElement('p');
-        statInfo.innerText = stat['stat']['name'];
-        p.append(statInfo);
+    let moveSet = document.createElement("p");
+    $.getJSON(`https://pokeapi.co/api/v2/pokemon/${id}`, function(data) {
+        for(let move of data.moves)
+        {
+            console.log(move.move.name);
+            moveSet.innerText = move.move.name;
+            htmlElement.append(moveSet);
+        }
+      }).fail(function() {
+        console.log("We couldn't find that pokemon's moves.")
     })
 }
+
+function getStats(id, htmlElement)
+{
+    $.getJSON(`https://pokeapi.co/api/v2/pokemon/${id}`, function(data) {
+        for(let stat of data.stats)
+        {
+            console.log(stat.stat.name, stat.base_stat);
+        }
+      }).fail(function() {
+        console.log("We couldn't find that pokemon's stats.")
+    })
+}
+
+function getAbilities(id, htmlElement)
+{
+    $.getJSON(`https://pokeapi.co/api/v2/pokemon/${id}`, function(data) {
+        for(let ability of data.abilities)
+        {
+            console.log(ability.ability.name);
+        }
+      }).fail(function() {
+        console.log("We couldn't find that pokemon's abilities.")
+    })
+}
+
+function getEvolutionTree(id)
+{
+    $.getJSON(`https://pokeapi.co/api/v2/evolution-chain/${id}`, function(data) {
+        let keys  = Object.keys(data)
+        console.log(keys)
+        for(let key of keys)
+        {
+            let createDiv = document.createElement('div');
+        }
+      }).fail(function() {
+        console.log("We couldn't find that pokemon's abilities.")
+    })
+}
+
 
 //helper function to display the type of the pokemon
 function createTypes(types, div)
