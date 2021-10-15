@@ -1,38 +1,13 @@
-//onload function
-$(function() {
-    $("#pokemon-search").click(function() {
-      let pokemonName = $("#pokemon-name").val()
-  
-        if (pokemonName !== '') {
-          $.getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`, 
-          function(data) {
-            console.log('data: ', data)
-          }).fail(function() {
-            console.log("That pokemon doesn't exist")
-        })
-      }
-      //reset the input
-      $('#pokemon-name').val('')
-    })
-})
-
 //CONTAINER TO STORE ALL THE POKEMON CARDS DISPLAYED ON THE SCREEN
 const pokemonContainer = document.getElementById("content-container");
 
-function searchPokemon()
-{
-    $("#pokemon-search").click(function() {
-        let pokemonName = $("#pokemon-search").val();
-        if(pokemonName !== '')
-        {
-
-        }
-    })   
-}
+//ARRAY FOR TO STORE ALL THE POKEMON NAMES
+let entirePokemonArray = [];
 
 //FILTER KANTO
 document.getElementById('filter-kanto').addEventListener("click", function()
 {
+    //fetches kanto pokemons by limiting it to the first 151 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -48,6 +23,8 @@ document.getElementById('filter-kanto').addEventListener("click", function()
 //FILTER JOHTO
 document.getElementById('filter-johto').addEventListener("click", function()
 {
+    //fetches johto pokemons by offsetting the search index 151 pokemons and limiting
+    //the search result to 100 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=100&offset=151')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -63,6 +40,8 @@ document.getElementById('filter-johto').addEventListener("click", function()
 //FILTER HOENN
 document.getElementById('filter-hoenn').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 251 pokemons and limiting
+    //the search result to 135 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=135&offset=251')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -78,6 +57,8 @@ document.getElementById('filter-hoenn').addEventListener("click", function()
 //FILTER SINNOH
 document.getElementById('filter-sinnoh').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 386 pokemons and limiting
+    //the search result to 107 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=107&offset=386')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -93,6 +74,8 @@ document.getElementById('filter-sinnoh').addEventListener("click", function()
 //FILTER UNOVA
 document.getElementById('filter-unova').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 493 pokemons and limiting
+    //the search result to 156 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=156&offset=493')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -108,6 +91,8 @@ document.getElementById('filter-unova').addEventListener("click", function()
 //FILTER KALOS
 document.getElementById('filter-kalos').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 649 pokemons and limiting
+    //the search result to 72 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=72&offset=649')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -123,6 +108,8 @@ document.getElementById('filter-kalos').addEventListener("click", function()
 //FILTER ALOLA
 document.getElementById('filter-alola').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 721 pokemons and limiting
+    //the search result to 86 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=86&offset=721')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -138,6 +125,8 @@ document.getElementById('filter-alola').addEventListener("click", function()
 //FILTER GALAR
 document.getElementById('filter-galar').addEventListener("click", function()
 {
+    //fetches hoenn pokemons by offsetting the search index 809 pokemons and limiting
+    //the search result to 89 pokemons
     fetch('https://pokeapi.co/api/v2/pokemon?limit=89&offset=809')
     .then(response => response.json())
     .then(function(allpokemon)
@@ -153,18 +142,10 @@ document.getElementById('filter-galar').addEventListener("click", function()
 //FILTER ALL
 document.getElementById('filter-all').addEventListener("click", function()
 {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
-    .then(response => response.json())
-    .then(function(allpokemon)
-    {
-       allpokemon.results.forEach(function(pokemon)
-       {
-           fetchData(pokemon);
-           updatePage();
-       })
-   })
+    //calls fetchPokemons() since it already gets all pokemons
+    fetchPokemons();
+    updatePage();
 })
-
 
 const fetchPokemons = async() =>
 {
@@ -175,6 +156,7 @@ const fetchPokemons = async() =>
         allpokemon.results.forEach(function(pokemon)
         {
             fetchData(pokemon); 
+            entirePokemonArray.push(pokemon.name);
         })
     })
 }
@@ -230,11 +212,8 @@ const selectPokemon = async id =>
 
 function cardPopup(pokemon)
 {
-    console.log(pokemon);
     const type = pokemon.types.map(type => type.type.name).join(", ");
-    
     const move = pokemon.moves.map(move => move.move.name).join(", ");
-    
     const stat = pokemon.stats.map(stat => stat.stat.name).join(", ");
 
     const htmlString = ` 
@@ -258,6 +237,7 @@ function cardPopup(pokemon)
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
 }
 
+//closes the card popup
 const closePopup = () =>
 {
     const popup = document.querySelector(".popup");
@@ -286,9 +266,152 @@ function createTypes(types, div)
     })
 }
 
+//emptys the page and updates it with the new pokemons
 function updatePage()
 {
-    pokemonContainer.innerHTML = "";
+    pokemonContainer.innerHTML = '';
 }
 
+function autocomplete(input, array)
+{
+    var currentFocus;
+    input.addEventListener("input", function(e)
+    {
+        var a, b, i, val = this.value;
+        closeAllLists();
+
+        if(!val)
+        {
+            return false;
+        }
+        currentFocus = -1;
+
+        a = document.createElement("div");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-elements");
+
+        this.parentNode.append(a);
+
+        for(i = 0; i < array.length; i++)
+        {
+            if(array[i].substr(0, val.length).toLowerCase() == val.toLowerCase())
+            {
+                b = document.createElement('div');
+                b.innerHTML = "<strong>" + array[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += array[i].substr(val.length);
+                b.innerHTML += "<input type = 'hidden' value = '" + array[i] + "'>";
+                b.addEventListener("click", function(){
+                    input.value = this.getElementsByTagName("input")[0].value;
+                    closeAllLists();
+                });
+                a.appendChild(b);
+            }
+        }
+    });
+
+    input.addEventListener("keydown", function(e)
+    {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if(x)
+        {
+            x = x.getElementsByTagName("div");
+        }
+        if(e.keyCode == 40)
+        {
+            currentFocus++;
+            addActive(x);
+        }
+        else if(e.keyCode == 38)
+        {
+            currentFocus--;
+            addActive(x)
+        }
+        else if(e.keyCode == 13)
+        {
+            e.preventDefault();
+            if(currentFocus > -1)
+            {
+                if(x) x[currentFocus].click();
+            }
+        }
+    });
+
+    function addActive(x)
+    {
+        if(!x) return false;
+        removeActive(x);
+        if(currentFocus >= x.length) currentFocus = 0;
+        if(currentFocus < 0) currentFocus = (x.length -1);
+        x[currentFocus].classList.add("autocomplete-active");
+    }
+
+    function removeActive(x)
+    {
+        for(let i = 0; i < x.length; i++)
+        {
+            x[i].classList.remove("search-containers-active");
+        }
+    }
+
+    function closeAllLists(element)
+    {
+        var x = document.getElementsByClassName("autocomplete-elements");
+        for(let i = 0; i < x.length; i++)
+        {
+            if(element != x[i] && element != input)
+            {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
+    }
+
+    document.addEventListener("click", function(e)
+    {
+        closeAllLists(e.target);
+    });
+}
+
+//SEARCH AND DISPLAY
+function searchPokemon()
+{
+    let search = document.getElementById("pokemon-search");
+    let pokemonName = document.getElementById("pokemon-name").value;
+    pokemonName.toLowerCase();
+    search.addEventListener("click", function(){
+        if(pokemonName !== "")
+        {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+            .then(response => response.json())
+            .then(function(allpokemon)
+            {
+                allpokemon.results.forEach(function(pokemon)
+                {
+                    fetchData(pokemon);
+                    console.log(pokemon.name)
+                })
+            })
+        }
+    })
+}
+
+// $(function() 
+// {
+//     $("#pokemon-search").click(function () {
+//         let pokemonName = $("#pokemon-name").val()
+//         pokemonName.toLowerCase();
+//         if (pokemonName !== '') {
+//             $.getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`,
+//                 function (data) {
+//                     console.log('data: ', data)
+//                 }).fail(function () {
+//                     alert("That pokemon does not exist or you entered an invalid value!");
+//                 })
+//         }
+//         //reset the input
+//         $('#pokemon-name').val('')
+//     })
+// })
+
 fetchPokemons();
+autocomplete(document.getElementById('pokemon-name'), entirePokemonArray);
+

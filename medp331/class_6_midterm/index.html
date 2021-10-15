@@ -15,18 +15,17 @@
     <title>Pokey.dex</title>
 </head>
 <body>
-    <div class="scrollbar">
-        <div class="scrollbar-tracker"></div>
-    </div>
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
                 <nav class="navbar">
-                    <h1 class="header-name ">Pokey.dex</h1>
-                    <div class="search-container">
-                        <input id = "pokemon-name" type="text" class="search" placeholder="Search for a pokemon">
-                        <button class = "button-search" id = "pokemon-search"><i class="fas fa-search"></i></button>
-                    </div>
+                    <h1 class="header-name">Pokey.dex</h1>
+                    <form>
+                        <div class="search-container" id = "search">
+                            <input id = "pokemon-name" type="text" class="search" placeholder="Search for a pokemon">
+                            <button class = "button-search" id = "pokemon-search"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
                 </nav>
                 <div class="regions">
                     <button class = "filter-button" id = "filter-all">All</button>
