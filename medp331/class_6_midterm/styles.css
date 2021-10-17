@@ -259,6 +259,11 @@ span
     font-style: italic;
     float: none;
 }
+.evolutions
+{
+    display: flex;
+    flex-direction: column;
+}
 /*-------------------MEDIA QUERIES-------------------*/
 @media only screen and (max-width: 1426px)
 {

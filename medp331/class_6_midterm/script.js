@@ -242,30 +242,8 @@ function cardPopup(pokemon)
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
     const moves = pokemon.moves.map(move => move.move.name).join(', ');
 
-    getEvolutionTree(pokemon.id)
+    getSpecies(pokemon.id)
 
-    let movesArray = moves;
-    let abilitiesArray = [];
-
-    $.getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`, function(data) {
-        for(let ability of data.abilities)
-        {
-            abilitiesArray.push(ability.ability.name);
-        }
-        
-      }).fail(function() {
-        alert("We could not get the detailed information of this pokemon!");
-    })
-
-    console.log(movesArray);
-
-    function getMovesList(array)
-    {
-        for(let i = 0; i < array.length; i++)
-        {
-            return array[i];
-        }
-    }
     const htmlString = ` 
     <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()"><i class="fas fa-times"></i></button> 
@@ -312,9 +290,16 @@ function cardPopup(pokemon)
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class = "whitespace"></div>
-                            <div class = "evolutions" id = "evolutions">
+                            <div class = "row">
+                                <div class = "evolutions">
+                                    <h1>Evolution Chain: </h1>
+                                    <div class = "evolution-container" id = "evolutions">
+                                    </div>
+                                </div>
                             </div>
+
                         </div> 
                     </div>
                 </div>
@@ -340,22 +325,58 @@ function getDescription(pokemon)
       })
 }
 
-function getEvolutionTree(id)
+function getSpecies(id)
 {
-    $.getJSON(`https://pokeapi.co/api/v2/evolution-chain/${id}`, function(data) {
-        let keys  = Object.keys(data)
-        for(let key of keys)
-        {
-            let div = document.createElement("div");
-            div.innerText = key;
-            $("#evolutions").append(div);
-            console.log(key);
-        }
+    $.getJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`, function(data) {
+        let url = data.evolution_chain;
+        getEvolutionTree(url);
       }).fail(function() {
-        console.log("We couldn't find that pokemon's abilities.")
+        console.log("We couldn't find that pokemon's evolution chain.")
     })
 }
 
+function getEvolutionTree(url)
+{
+    $.getJSON(url, function(data) {
+        var evoChain = [];
+        var evoData = data.chain;
+
+        do{
+            var evoDetails = evoData['evolution_details'][0];
+
+            evoChain.push({
+                "species_name": evoData.species.name,
+                "min_level": !evoDetails ? 1 : evoDetails.min_level,
+                "trigger_name": !evoDetails ? null : evoDetails.trigger.name,
+                "item": !evoDetails ? null : evoDetails.item,
+            });
+            evoData = evoData['evolves_to'][0];
+        } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
+        console.log(evoChain);
+        getEvolutionDetails(evoChain);
+      }).fail(function() {
+        console.log("We couldn't find that pokemon's evolution chain.")
+    })
+}
+
+function getEvolutionDetails(array)
+{
+    for(let i = 0; i < array.length; i++)
+    {
+        $.getJSON(`https://pokeapi.co/api/v2/pokemon/${array[i].species_name}`, function(data) {
+            console.log('data: ', data);
+            const sprite = document.createElement("img");
+            sprite.setAttribute("src", data.sprites.front_default);
+            sprite.classList.add("pokemon-img");
+            $('#evolutions').append(sprite, array[i].species_name, array[i].min_level);
+          }).fail(function() {
+            alert("We could not get the detailed information of this pokemon!");
+        })
+
+        console.log(array[i].species_name);
+        console.log(array[i].min_level);
+    }
+}
 
 //closes the card popup
 const closePopup = () =>
