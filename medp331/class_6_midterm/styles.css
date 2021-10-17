@@ -132,12 +132,12 @@ body
 .types
 {
     display: flex;
-    justify-content: space-between;
+    font-weight: 500;
     text-transform: capitalize;
 }
-.green
+.little-bit-of-margin
 {
-    background-color: aqua;
+    margin: 5px;
 }
 /*-------------------CARD POPUP STYLING-------------------*/
 .popup
@@ -205,7 +205,6 @@ body
 {
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 .stats-container
 {
@@ -259,10 +258,37 @@ span
     font-style: italic;
     float: none;
 }
+/*****EVOLUTION SECTION OF CARD******/
+.evolutions-container
+{
+    width: 100%;
+    height: 100%;
+    background-color: antiquewhite;
+}
 .evolutions
 {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.evolution-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    text-transform: capitalize;
+
+}
+.evolution-header
+{
+    float: left;
+    text-align: left;
+}
+.habitat
+{
+    float: none;
+    text-transform: capitalize;
 }
 /*-------------------MEDIA QUERIES-------------------*/
 @media only screen and (max-width: 1426px)
@@ -308,7 +334,7 @@ span
     }
     .card
     {
-        margin-top: 2.5rem;
+        margin-top: 0;
     }
     .regions
     {
@@ -330,6 +356,10 @@ span
         font-size: 1.7rem;
         border: none;
         background: none;
+    }
+    .evolutions
+    {
+        flex-direction: column;
     }
 }
 

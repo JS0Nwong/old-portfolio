@@ -166,7 +166,7 @@ document.getElementById('filter-all').addEventListener("click", function()
 
 const fetchPokemons = async() =>
 {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=151') // CHANGE THE LIMIT BACK TO 898 LATER 
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=898') // CHANGE THE LIMIT BACK TO 898 LATER 
      .then(response => response.json())
      .then(function(allpokemon)
      {
@@ -236,11 +236,13 @@ const selectPokemon = async id =>
 
 function cardPopup(pokemon)
 {
-    const type = pokemon.types.map(type => type.type.name).join(", ");
+    const type = pokemon.types.map(type => type.type.name).join(", ");   
     const description = getDescription(pokemon.id);
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
     const moves = pokemon.moves.map(move => move.move.name).join(', ');
+
+    const test = getMoves(pokemon)
 
     getSpecies(pokemon.id)
 
@@ -248,9 +250,6 @@ function cardPopup(pokemon)
     <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()"><i class="fas fa-times"></i></button> 
         <div class="popup-card" id = "popup">
-            <div class = "scroll-bar-container">
-                <div class = "scroll-bar" id = "scrollbar"></div>
-            </div>
             <div class = "card-content">
                 <div class = "row">
                     <div class = "col-md-4 basic-information">
@@ -283,36 +282,43 @@ function cardPopup(pokemon)
                             <div class = "biography">
                                 <h1>Biography: </h1>
                                     <p class = "flavor-text">Flavor Text: <span id = "flavor-text"> </span></p>
+
                                     <div class = "move-set-container">
                                         <div class = "move" id = "move">
                                             <span class = "move-title">Move Set: <span>${moves}
                                         </div>
                                     </div>
+
+                                    <div>
+                                        <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div class = "whitespace"></div>
-                            <div class = "row">
-                                <div class = "evolutions">
-                                    <h1>Evolution Chain: </h1>
-                                    <div class = "evolution-container" id = "evolutions">
-                                    </div>
-                                </div>
+    
+                            <h1 class = "evolution-header">Evolution Chain: </h1>
+                            <div class = "evolutions" id = "evolutions">    
                             </div>
-
                         </div> 
                     </div>
                 </div>
             </div>
         </div> 
     </div> `;
+
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
+}
+
+function getMoves(pokemon)
+{
+    const moves = pokemon.moves.map(move => move.move.name).join(', ');
+    console.log(moves);   
 }
 
 function getDescription(pokemon)
 {
     $.getJSON(`https://pokeapi.co/api/v2/characteristic/${pokemon}`, function(data) {
-        console.log('data: ', data)
         for (let description of data.descriptions) {
           if (description.language.name == 'en') {
             $("#flavor-text").append(description.description);
@@ -329,7 +335,9 @@ function getSpecies(id)
 {
     $.getJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`, function(data) {
         let url = data.evolution_chain;
+        console.log(data);
         getEvolutionTree(url);
+        getHabitat(data.habitat);
       }).fail(function() {
         console.log("We couldn't find that pokemon's evolution chain.")
     })
@@ -352,7 +360,6 @@ function getEvolutionTree(url)
             });
             evoData = evoData['evolves_to'][0];
         } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
-        console.log(evoChain);
         getEvolutionDetails(evoChain);
       }).fail(function() {
         console.log("We couldn't find that pokemon's evolution chain.")
@@ -364,18 +371,23 @@ function getEvolutionDetails(array)
     for(let i = 0; i < array.length; i++)
     {
         $.getJSON(`https://pokeapi.co/api/v2/pokemon/${array[i].species_name}`, function(data) {
-            console.log('data: ', data);
-            const sprite = document.createElement("img");
-            sprite.setAttribute("src", data.sprites.front_default);
-            sprite.classList.add("pokemon-img");
-            $('#evolutions').append(sprite, array[i].species_name, array[i].min_level);
+            const div = `<div class = "col-md-4 evolution-container">
+                <img class = "pokemon-img" src = ${data.sprites.front_default}>
+                <h3>${array[i].species_name}</h3>
+                <p>Level: ${array[i].min_level}</p>
+            </div>`;
+
+            $('#evolutions').append(div);
           }).fail(function() {
             alert("We could not get the detailed information of this pokemon!");
         })
-
-        console.log(array[i].species_name);
-        console.log(array[i].min_level);
     }
+}
+
+function getHabitat(habitat)
+{
+    console.log(habitat.name);
+    $("#habitat").append(habitat.name);
 }
 
 //closes the card popup
@@ -391,7 +403,8 @@ function createTypes(types, div)
     types.forEach(function(type)
     {
         let typeList = document.createElement('p');
-        typeList.innerText = type['type']['name'];
+        typeList.classList.add("little-bit-of-margin");
+        typeList.innerText = type.type.name;
         div.append(typeList);
     })
 }
