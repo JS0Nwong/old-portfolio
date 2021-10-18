@@ -166,7 +166,7 @@ document.getElementById('filter-all').addEventListener("click", function()
 
 const fetchPokemons = async() =>
 {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=898') // CHANGE THE LIMIT BACK TO 898 LATER 
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151') // CHANGE THE LIMIT BACK TO 898 LATER 
      .then(response => response.json())
      .then(function(allpokemon)
      {
@@ -214,6 +214,7 @@ function render(data)
 
     const sprite = document.createElement("img");
     sprite.setAttribute("src", data.sprites.front_default);
+    sprite.setAttribute("loading", "auto");
     sprite.classList.add("pokemon-img");
 
     name.innerText = data.name;
@@ -292,6 +293,9 @@ function cardPopup(pokemon)
                                     <div>
                                         <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
                                     </div>
+                                    <div>
+                                        <p class = "flavor-text">Capture Rate: <span class = "habitat" id = "capture"></span>%</p>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -321,13 +325,12 @@ function getDescription(pokemon)
     $.getJSON(`https://pokeapi.co/api/v2/characteristic/${pokemon}`, function(data) {
         for (let description of data.descriptions) {
           if (description.language.name == 'en') {
-            $("#flavor-text").append(description.description);
+            //$("#flavor-text").append(description.description);
             console.log(description.description);
           }
         }
       }).fail(function() {
         console.log("We couldn't find that pokemon's characteristics.")
-        $("#flavor-text").append("Sorry we could not get the flavor text of this pokemon");
       })
 }
 
@@ -338,8 +341,19 @@ function getSpecies(id)
         console.log(data);
         getEvolutionTree(url);
         getHabitat(data.habitat);
+        $("#capture").append(data.capture_rate)
+        for(let description of data.flavor_text_entries)
+        {
+            if(description.language.name == "en" && description.version.name == "y")
+            {
+                console.log(description);
+                $("#flavor-text").append(description.flavor_text);
+            }
+        }
+        
       }).fail(function() {
         console.log("We couldn't find that pokemon's evolution chain.")
+        $("#flavor-text").append("Sorry we could not get the flavor text of this pokemon");
     })
 }
 
@@ -375,9 +389,25 @@ function getEvolutionDetails(array)
                 <img class = "pokemon-img" src = ${data.sprites.front_default}>
                 <h3>${array[i].species_name}</h3>
                 <p>Level: ${array[i].min_level}</p>
-            </div>`;
+            </div>
+            <i class="fas fa-arrow-right"></i>
+            `;
 
-            $('#evolutions').append(div);
+            const endDiv = `<div class = "col-md-4 evolution-container">
+                <img class = "pokemon-img" src = ${data.sprites.front_default}>
+                <h3>${array[i].species_name}</h3>
+                <p>Level: ${array[i].min_level}</p>
+            </div>
+            `;
+
+            if(i + 1 != array.length)
+            {
+                $('#evolutions').append(div);
+            }
+            else if(i + 1 == array.length)
+            {
+                $('#evolutions').append(endDiv)
+            }
           }).fail(function() {
             alert("We could not get the detailed information of this pokemon!");
         })
