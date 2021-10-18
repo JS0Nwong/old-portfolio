@@ -241,9 +241,7 @@ function cardPopup(pokemon)
     const description = getDescription(pokemon.id);
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
-    const moves = pokemon.moves.map(move => move.move.name).join(', ');
-
-    const test = getMoves(pokemon)
+    const moves = pokemon.moves.map(move => move.move.name);
 
     getSpecies(pokemon.id)
 
@@ -263,61 +261,86 @@ function cardPopup(pokemon)
                             <p class = "type">Weight: <span class = "weight">${pokemon.weight} kg</span></p>
 
                             <div class = "whitespace"></div>
-
+                            
+                            <h1>Statistics: </h1>
                             <p class = "stat">HP: <span>${statValues[0]}</span></p>
                             <p class = "stat">Attack: <span>${statValues[1]}</span></p>
                             <p class = "stat">Defense: <span>${statValues[2]}</span></p>
                             <p class = "stat">Special-Attack: <span>${statValues[3]}</span></p>
                             <p class = "stat">Special-Defense: <span>${statValues[4]}</span></p>
                             <p class = "stat">Speed: <span>${statValues[5]}</span></p>
+                            <p class = "ability">Abilities: <span>${ability}</span></p>
 
                             <div class = "whitespace"></div>
-
-                            <div class = "abilties-container">
-                                <p class = "ability">Abilities: <span>${ability}</span></p>
-                            </div>
                         </div>
                     </div> 
                     <div class = "col-md-8 pokemon-information">
                         <div class = "row">
                             <div class = "biography">
-                                <h1>Biography: </h1>
+                                    <h1>Biography: </h1>
                                     <p class = "flavor-text">Flavor Text: <span id = "flavor-text"> </span></p>
+                                    <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
+                                    <p class = "flavor-text">Capture Rate: <span class = "habitat" id = "capture"></span>%</p>
 
-                                    <div class = "move-set-container">
-                                        <div class = "move" id = "move">
-                                            <span class = "move-title">Move Set: <span>${moves}
+                                   
+                                    <div class = "row moves-row">
+                                        <p class = "move-title">Move Set: <p>
+                                        <div class= "col-md-4"> 
                                         </div>
-                                    </div>
-
-                                    <div>
-                                        <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
-                                    </div>
-                                    <div>
-                                        <p class = "flavor-text">Capture Rate: <span class = "habitat" id = "capture"></span>%</p>
+                                        <div class= "col-md-4"> 
+                                        </div>
+                                        <div class= "col-md-4"> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class = "whitespace"></div>
     
-                            <h1 class = "evolution-header">Evolution Chain: </h1>
-                            <div class = "evolutions" id = "evolutions">    
+                            <div class = "row">
+                                <h1 class = "evolution-header">Evolution Chain: </h1>
+                                <div class = "evolutions" id = "evolutions"></div>
                             </div>
                         </div> 
+                        
                     </div>
                 </div>
             </div>
         </div> 
     </div> `;
 
+    /*
+    <div class= "col-md-4"> 
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
+
+    </div>
+    <div class= "col-md-4"> 
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+
+    </div>
+    <div class= "col-md-4"> 
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+        <p class = "move">${moves[0]}</p>
+    </div>
+    */
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
 }
 
-function getMoves(pokemon)
+function getMoveType(move)
 {
-    const moves = pokemon.moves.map(move => move.move.name).join(', ');
-    console.log(moves);   
+
 }
 
 function getDescription(pokemon)
@@ -386,7 +409,7 @@ function getEvolutionDetails(array)
     {
         $.getJSON(`https://pokeapi.co/api/v2/pokemon/${array[i].species_name}`, function(data) {
             const div = `<div class = "col-md-4 evolution-container">
-                <img class = "pokemon-img" src = ${data.sprites.front_default}>
+                <img class = "evolution-img" src = ${data.sprites.front_default}>
                 <h3>${array[i].species_name}</h3>
                 <p>Level: ${array[i].min_level}</p>
             </div>
@@ -394,7 +417,7 @@ function getEvolutionDetails(array)
             `;
 
             const endDiv = `<div class = "col-md-4 evolution-container">
-                <img class = "pokemon-img" src = ${data.sprites.front_default}>
+                <img class = "evolution-img" src = ${data.sprites.front_default}>
                 <h3>${array[i].species_name}</h3>
                 <p>Level: ${array[i].min_level}</p>
             </div>
