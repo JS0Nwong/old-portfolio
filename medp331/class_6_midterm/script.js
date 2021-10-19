@@ -6,14 +6,14 @@ let entirePokemonArray = [];
 
 const colors = {
     fire: "#ffc965",
-    grass: "#c9f781",
+    grass: "#2fc780",
     water: "#65c1ff",
     electric: "#fcf7de",
     ground: "#7a6008", 
     fairy: "#f894e7",
     rock: "#d5d5d4",
     poison: "#7c11f7",
-    bug: "#2fc780",
+    bug: "#c9f781",
     dragon: "#97b3e6",
     psychic: "#eaeda1",
     flying: "#ad65ff",
@@ -243,7 +243,18 @@ function cardPopup(pokemon)
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
     const moves = pokemon.moves.map(move => move.move.name);
 
-    getSpecies(pokemon.id)
+    getSpecies(pokemon.id);
+    getMoves(pokemon.id);
+
+    const pokemonMoves = pokemon.moves;
+    for(let move of pokemon.moves)
+    {
+        // let para = document.createElement('p')
+        // para.innerText = move.move.name
+        // $("#move-set").appendChild(para);
+        //console.log(move.move.name);
+    }
+
 
     const htmlString = ` 
     <div class="popup container-fluid"> 
@@ -282,15 +293,9 @@ function cardPopup(pokemon)
                                     <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
                                     <p class = "flavor-text">Capture Rate: <span class = "habitat" id = "capture"></span>%</p>
 
-                                   
-                                    <div class = "row moves-row">
-                                        <p class = "move-title">Move Set: <p>
-                                        <div class= "col-md-4"> 
-                                        </div>
-                                        <div class= "col-md-4"> 
-                                        </div>
-                                        <div class= "col-md-4"> 
-                                        </div>
+                                   <p class = "move-title">Move Set: <p>
+                                    <div class = "row" id = "moves-row">
+
                                     </div>
                                 </div>
                             </div>
@@ -308,39 +313,38 @@ function cardPopup(pokemon)
             </div>
         </div> 
     </div> `;
-
-    /*
-    <div class= "col-md-4"> 
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-        <p class = "move">${moves[0]} <span class = "move-type">Normal</span></p>
-
-    </div>
-    <div class= "col-md-4"> 
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-
-    </div>
-    <div class= "col-md-4"> 
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-        <p class = "move">${moves[0]}</p>
-    </div>
-    */
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
+}
+
+const getMoves = async id => 
+{
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+    const res = await fetch(url);
+    const pokemon = await res.json();
+    console.log(pokemon.moves);
+
+    for(let move of pokemon.moves)
+    {
+        let para = document.createElement('p');
+        let span = document.createElement('span');
+        let moveType = getMoveType(move.move.name);
+
+        span.innerText = moveType;
+        para.innerText = move.move.name;
+        para.appendChild(span);
+        $("#moves-row").append(para)
+    }
 }
 
 function getMoveType(move)
 {
-
+    $.getJSON(`https://pokeapi.co/api/v2/move/${move}`), function(data)
+    {
+        for(let type of data.type)
+        {
+            console.log(type.type.name);
+        }
+    }
 }
 
 function getDescription(pokemon)
@@ -439,7 +443,6 @@ function getEvolutionDetails(array)
 
 function getHabitat(habitat)
 {
-    console.log(habitat.name);
     $("#habitat").append(habitat.name);
 }
 
@@ -466,6 +469,11 @@ function createTypes(types, div)
 function updatePage()
 {
     pokemonContainer.innerHTML = '';
+}
+
+function searchPokemon()
+{
+
 }
 
 //AUTO COMPLETE FUNCTIONALITY
@@ -568,10 +576,6 @@ function autocomplete(input, array)
     });
 }
 
-function changeTheme()
-{
-    
-}
 
 fetchPokemons();
 autocomplete(document.getElementById('pokemon-name'), entirePokemonArray);
