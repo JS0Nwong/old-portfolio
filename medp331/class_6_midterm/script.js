@@ -5,20 +5,24 @@ const pokemonContainer = document.getElementById("content-container");
 let entirePokemonArray = [];
 
 const colors = {
-    fire: "#ffc965",
-    grass: "#2fc780",
-    water: "#65c1ff",
-    electric: "#fcf7de",
-    ground: "#7a6008", 
-    fairy: "#f894e7",
-    rock: "#d5d5d4",
-    poison: "#7c11f7",
-    bug: "#c9f781",
-    dragon: "#97b3e6",
-    psychic: "#eaeda1",
-    flying: "#ad65ff",
-    fighting: "#f53e38",
-    normal: "#c4c4c4",
+    normal:'#A6A86D',
+    fire:'#FF7B25',
+    water:'#6D92F9',
+    grass: '#78C84B',
+    electric: '#F2D037',
+    ice: '#94D9DC',
+    fighting:'#BD3723',
+    poison: '#A2449D',
+    ground: '#E3C172',
+    flying: '#A88FF1',
+    psychic: '#FE5786',
+    bug: '#A9BD10',
+    rock: '#BBA130',
+    ghost: '#6A5092',
+    dark: '#6D5A4B',
+    dragon: '#773BF5',
+    steel: '#B9BAC6',
+    fairy: '#F2B9BC',
 }
 
 //FILTER KANTO
@@ -241,20 +245,9 @@ function cardPopup(pokemon)
     const description = getDescription(pokemon.id);
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
-    const moves = pokemon.moves.map(move => move.move.name);
 
     getSpecies(pokemon.id);
     getMoves(pokemon.id);
-
-    const pokemonMoves = pokemon.moves;
-    for(let move of pokemon.moves)
-    {
-        // let para = document.createElement('p')
-        // para.innerText = move.move.name
-        // $("#move-set").appendChild(para);
-        //console.log(move.move.name);
-    }
-
 
     const htmlString = ` 
     <div class="popup container-fluid"> 
@@ -270,6 +263,7 @@ function cardPopup(pokemon)
                             <p class = "type">Type: <span>${type}</span></p>
                             <p class = "type">Height: <span class = "height">${pokemon.height} m</span></p>
                             <p class = "type">Weight: <span class = "weight">${pokemon.weight} kg</span></p>
+                            <p class = "ability">Abilities: <span>${ability}</span></p>
 
                             <div class = "whitespace"></div>
                             
@@ -280,7 +274,6 @@ function cardPopup(pokemon)
                             <p class = "stat">Special-Attack: <span>${statValues[3]}</span></p>
                             <p class = "stat">Special-Defense: <span>${statValues[4]}</span></p>
                             <p class = "stat">Speed: <span>${statValues[5]}</span></p>
-                            <p class = "ability">Abilities: <span>${ability}</span></p>
 
                             <div class = "whitespace"></div>
                         </div>
@@ -321,29 +314,29 @@ const getMoves = async id =>
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
     const res = await fetch(url);
     const pokemon = await res.json();
-    console.log(pokemon.moves);
 
     for(let move of pokemon.moves)
     {
         let para = document.createElement('p');
         let span = document.createElement('span');
-        let moveType = getMoveType(move.move.name);
+        const movesUrl = `https://pokeapi.co/api/v2/move/${move.move.name}`;
+        const movesRes = await fetch(movesUrl);
+        const type = await movesRes.json();
 
-        span.innerText = moveType;
+        span.innerText = type.type.name;
+        span.style.backgroundColor = colors[type.type.name];
+
+        $(span).css({
+            'borderRadius': '5px',
+            'width': '120px',
+            'fontWeight': 'bold',
+            'textAlign': 'center',
+        })
+
         para.innerText = move.move.name;
         para.appendChild(span);
+        para.classList.add('move');
         $("#moves-row").append(para)
-    }
-}
-
-function getMoveType(move)
-{
-    $.getJSON(`https://pokeapi.co/api/v2/move/${move}`), function(data)
-    {
-        for(let type of data.type)
-        {
-            console.log(type.type.name);
-        }
     }
 }
 
@@ -471,9 +464,13 @@ function updatePage()
     pokemonContainer.innerHTML = '';
 }
 
-function searchPokemon()
-{
+let pokemonName = $('#pokemon-name').val();
+document.getElementById('pokemon-search').addEventListener("click", searchPokemon(pokemonName));
 
+//SEARCH FUNCTIONALITY
+function searchPokemon(name)
+{
+    
 }
 
 //AUTO COMPLETE FUNCTIONALITY
