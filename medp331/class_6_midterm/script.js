@@ -242,7 +242,6 @@ const selectPokemon = async id =>
 function cardPopup(pokemon)
 {
     const type = pokemon.types.map(type => type.type.name).join(", ");   
-    const description = getDescription(pokemon.id);
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
 
@@ -285,11 +284,6 @@ function cardPopup(pokemon)
                                     <p class = "flavor-text">Flavor Text: <span id = "flavor-text"> </span></p>
                                     <p class = "flavor-text">Habitat: <span class = "habitat" id = "habitat"></span></p>
                                     <p class = "flavor-text">Capture Rate: <span class = "habitat" id = "capture"></span>%</p>
-
-                                   <p class = "move-title">Move Set: <p>
-                                    <div class = "row" id = "moves-row">
-
-                                    </div>
                                 </div>
                             </div>
                             
@@ -299,8 +293,15 @@ function cardPopup(pokemon)
                                 <h1 class = "evolution-header">Evolution Chain: </h1>
                                 <div class = "evolutions" id = "evolutions"></div>
                             </div>
+                            
+                            <div class = "whitespace"></div>
+
+                            <h1>Move Set: </h1>
+                            <div class = "row" id = "moves-row">
+
+                            </div>
+
                         </div> 
-                        
                     </div>
                 </div>
             </div>
@@ -338,20 +339,6 @@ const getMoves = async id =>
         para.classList.add('move');
         $("#moves-row").append(para)
     }
-}
-
-function getDescription(pokemon)
-{
-    $.getJSON(`https://pokeapi.co/api/v2/characteristic/${pokemon}`, function(data) {
-        for (let description of data.descriptions) {
-          if (description.language.name == 'en') {
-            //$("#flavor-text").append(description.description);
-            console.log(description.description);
-          }
-        }
-      }).fail(function() {
-        console.log("We couldn't find that pokemon's characteristics.")
-      })
 }
 
 function getSpecies(id)
@@ -464,7 +451,7 @@ function updatePage()
     pokemonContainer.innerHTML = '';
 }
 
-let pokemonName = $('#pokemon-name').val();
+let pokemonName = $('#pokemon-search-name').val();
 document.getElementById('pokemon-search').addEventListener("click", searchPokemon(pokemonName));
 
 //SEARCH FUNCTIONALITY
@@ -575,5 +562,5 @@ function autocomplete(input, array)
 
 
 fetchPokemons();
-autocomplete(document.getElementById('pokemon-name'), entirePokemonArray);
+autocomplete(document.getElementById('pokemon-search-name'), entirePokemonArray);
 
