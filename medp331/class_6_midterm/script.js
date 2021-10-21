@@ -451,15 +451,22 @@ document.getElementById('pokemon-search').addEventListener("click", searchPokemo
 function searchPokemon()
 {
     let name = document.getElementById("pokemon-search-name").value
-    fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
-    .then(response => response.json())
-    .then(function(pokemondata)
+    if(name != '')
     {
-        console.log(pokemondata);
-        updatePage();
-        render(pokemondata);
-        //render(pokemondata);
-    })
+        fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+        .then(response => response.json())
+        .then(function(pokemondata)
+        {
+            console.log(pokemondata);
+            updatePage();
+            render(pokemondata);
+        })
+    }
+    else
+    {
+        window.alert("Please enter a name of a pokemon!");
+        alert("Please enter a name of a pokemon")
+    }
     console.log(name);
 }
 
