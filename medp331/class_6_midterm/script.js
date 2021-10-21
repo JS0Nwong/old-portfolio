@@ -257,13 +257,11 @@ function cardPopup(pokemon)
                     <div class = "col-md-4 basic-information">
                         <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
                         <h2 class="card-title">${pokemon.name} #${pokemon.id}</h2>
-
                         <div class = "stats-container" id = "statistic">
                             <p class = "type">Type: <span>${type}</span></p>
                             <p class = "type">Height: <span class = "height">${pokemon.height} m</span></p>
                             <p class = "type">Weight: <span class = "weight">${pokemon.weight} kg</span></p>
                             <p class = "ability">Abilities: <span>${ability}</span></p>
-
                             <div class = "whitespace"></div>
                             
                             <h1>Statistics: </h1>
@@ -273,7 +271,6 @@ function cardPopup(pokemon)
                             <p class = "stat">Special-Attack: <span>${statValues[3]}</span></p>
                             <p class = "stat">Special-Defense: <span>${statValues[4]}</span></p>
                             <p class = "stat">Speed: <span>${statValues[5]}</span></p>
-
                             <div class = "whitespace"></div>
                         </div>
                     </div> 
@@ -295,12 +292,9 @@ function cardPopup(pokemon)
                             </div>
                             
                             <div class = "whitespace"></div>
-
                             <h1>Move Set: </h1>
                             <div class = "row" id = "moves-row">
-
                             </div>
-
                         </div> 
                     </div>
                 </div>
@@ -451,13 +445,14 @@ function updatePage()
     pokemonContainer.innerHTML = '';
 }
 
-let pokemonName = $('#pokemon-search-name').val();
-document.getElementById('pokemon-search').addEventListener("click", searchPokemon(pokemonName));
+document.getElementById('pokemon-search').addEventListener("click", searchPokemon);
+
 
 //SEARCH FUNCTIONALITY
-function searchPokemon(name)
+function searchPokemon()
 {
-    
+    let name = document.getElementById("pokemon-search-name").value
+    console.log(name);
 }
 
 //AUTO COMPLETE FUNCTIONALITY
@@ -533,34 +528,6 @@ function autocomplete(input, array)
         if(currentFocus < 0) currentFocus = (x.length -1);
         x[currentFocus].classList.add("autocomplete-active");
     }
-
-    function removeActive(x)
-    {
-        for(let i = 0; i < x.length; i++)
-        {
-            x[i].classList.remove("search-containers-active");
-        }
-    }
-
-    function closeAllLists(element)
-    {
-        var x = document.getElementsByClassName("autocomplete-elements");
-        for(let i = 0; i < x.length; i++)
-        {
-            if(element != x[i] && element != input)
-            {
-                x[i].parentNode.removeChild(x[i]);
-            }
-        }
-    }
-
-    document.addEventListener("click", function(e)
-    {
-        closeAllLists(e.target);
-    });
 }
 
-
-fetchPokemons();
-autocomplete(document.getElementById('pokemon-search-name'), entirePokemonArray);
 
