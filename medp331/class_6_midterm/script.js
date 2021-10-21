@@ -257,11 +257,13 @@ function cardPopup(pokemon)
                     <div class = "col-md-4 basic-information">
                         <img class="card-image" src="${pokemon.sprites["front_default"]}"/> 
                         <h2 class="card-title">${pokemon.name} #${pokemon.id}</h2>
+
                         <div class = "stats-container" id = "statistic">
                             <p class = "type">Type: <span>${type}</span></p>
                             <p class = "type">Height: <span class = "height">${pokemon.height} m</span></p>
                             <p class = "type">Weight: <span class = "weight">${pokemon.weight} kg</span></p>
                             <p class = "ability">Abilities: <span>${ability}</span></p>
+
                             <div class = "whitespace"></div>
                             
                             <h1>Statistics: </h1>
@@ -271,6 +273,7 @@ function cardPopup(pokemon)
                             <p class = "stat">Special-Attack: <span>${statValues[3]}</span></p>
                             <p class = "stat">Special-Defense: <span>${statValues[4]}</span></p>
                             <p class = "stat">Speed: <span>${statValues[5]}</span></p>
+
                             <div class = "whitespace"></div>
                         </div>
                     </div> 
@@ -292,9 +295,12 @@ function cardPopup(pokemon)
                             </div>
                             
                             <div class = "whitespace"></div>
+
                             <h1>Move Set: </h1>
                             <div class = "row" id = "moves-row">
+
                             </div>
+
                         </div> 
                     </div>
                 </div>
@@ -341,8 +347,18 @@ function getSpecies(id)
         let url = data.evolution_chain;
         console.log(data);
         getEvolutionTree(url);
-        getHabitat(data.habitat);
-        $("#capture").append(data.capture_rate)
+        console.log(data.habitat.name);
+        if(data.habitat.name == null)
+        {
+            $("#habitat").append(data.habitat.name);
+            $("#habitat").append("Could not get the habitat of this pokemon");
+        }
+        else
+        {
+            $("#habitat").append(data.habitat.name);
+        }
+        $("#capture").append(data.capture_rate);
+        
         for(let description of data.flavor_text_entries)
         {
             if(description.language.name == "en" && description.version.name == "y")
@@ -415,11 +431,6 @@ function getEvolutionDetails(array)
     }
 }
 
-function getHabitat(habitat)
-{
-    $("#habitat").append(habitat.name);
-}
-
 //closes the card popup
 const closePopup = () =>
 {
@@ -445,6 +456,7 @@ function updatePage()
     pokemonContainer.innerHTML = '';
 }
 
+
 document.getElementById('pokemon-search').addEventListener("click", searchPokemon);
 
 //SEARCH FUNCTIONALITY
@@ -468,7 +480,7 @@ function searchPokemon()
         alert("Please enter a name of a pokemon")
     }
     console.log(name);
-}
+}   
 
 //AUTO COMPLETE FUNCTIONALITY
 function autocomplete(input, array)
@@ -531,6 +543,7 @@ function autocomplete(input, array)
             if(currentFocus > -1)
             {
                 if(x) x[currentFocus].click();
+                searchPokemon();
             }
         }
     });
@@ -543,6 +556,54 @@ function autocomplete(input, array)
         if(currentFocus < 0) currentFocus = (x.length -1);
         x[currentFocus].classList.add("autocomplete-active");
     }
+
+    function removeActive(x)
+    {
+        for(let i = 0; i < x.length; i++)
+        {
+            x[i].classList.remove("search-containers-active");
+        }
+    }
+
+    function closeAllLists(element)
+    {
+        var x = document.getElementsByClassName("autocomplete-elements");
+        for(let i = 0; i < x.length; i++)
+        {
+            if(element != x[i] && element != input)
+            {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
+    }
+
+    document.addEventListener("click", function(e)
+    {
+        closeAllLists(e.target);
+    });
 }
 
+window.onscroll = function(){
+    scrollFunction();
+}
+
+function scrollFunction(){
+    if(document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000)
+    {
+        document.getElementById("scroll-top").style.display = "flex";
+    }
+    else
+    {
+        document.getElementById("scroll-top").style.display = "none";
+    }
+}
+
+document.getElementById("scroll-top").addEventListener("click", function(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+})
+
+
+fetchPokemons();
+autocomplete(document.getElementById('pokemon-search-name'), entirePokemonArray);
 
