@@ -447,11 +447,19 @@ function updatePage()
 
 document.getElementById('pokemon-search').addEventListener("click", searchPokemon);
 
-
 //SEARCH FUNCTIONALITY
 function searchPokemon()
 {
     let name = document.getElementById("pokemon-search-name").value
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+    .then(response => response.json())
+    .then(function(pokemondata)
+    {
+        console.log(pokemondata);
+        updatePage();
+        render(pokemondata);
+        //render(pokemondata);
+    })
     console.log(name);
 }
 
