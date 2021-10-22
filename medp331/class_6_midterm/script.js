@@ -239,6 +239,9 @@ const selectPokemon = async id =>
     cardPopup(pokemon);
 }
 
+/*
+Made template card in HTML and put it in a template literal. Gets and displays information in the template literal
+*/
 function cardPopup(pokemon)
 {
     const type = pokemon.types.map(type => type.type.name).join(", ");   
@@ -310,6 +313,7 @@ function cardPopup(pokemon)
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
 }
 
+//Gets moves and maps appends it to the template literal  
 const getMoves = async id => 
 {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -341,6 +345,7 @@ const getMoves = async id =>
     }
 }
 
+//gets the pokemon species in order to get the evolution chain of the pokemon
 function getSpecies(id)
 {
     $.getJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`, function(data) {
@@ -350,7 +355,6 @@ function getSpecies(id)
         console.log(data.habitat.name);
         if(data.habitat.name == null)
         {
-            $("#habitat").append(data.habitat.name);
             $("#habitat").append("Could not get the habitat of this pokemon");
         }
         else
@@ -374,6 +378,7 @@ function getSpecies(id)
     })
 }
 
+//gets the evolution tree of the pokemon
 function getEvolutionTree(url)
 {
     $.getJSON(url, function(data) {
@@ -397,6 +402,7 @@ function getEvolutionTree(url)
     })
 }
 
+//helper function to get the details of the pokemon evolutions 
 function getEvolutionDetails(array)
 {
     for(let i = 0; i < array.length; i++)
