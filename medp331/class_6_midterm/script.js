@@ -405,6 +405,7 @@ function getEvolutionTree(url)
 //helper function to get the details of the pokemon evolutions 
 function getEvolutionDetails(array)
 {
+    //for the length of the array, get the details of the pokemon from the api and append it to the template literal and then append it to the page
     for(let i = 0; i < array.length; i++)
     {
         $.getJSON(`https://pokeapi.co/api/v2/pokemon/${array[i].species_name}`, function(data) {
@@ -440,6 +441,7 @@ function getEvolutionDetails(array)
 //closes the card popup
 const closePopup = () =>
 {
+    //gets the card popup and removes it from the DOM
     const popup = document.querySelector(".popup");
     popup.parentElement.removeChild(popup);
 }
@@ -447,8 +449,10 @@ const closePopup = () =>
 //helper function to display the type of the pokemon
 function createTypes(types, div)
 {
+    //parse the types array
     types.forEach(function(type)
     {
+        //creates a p element adds the class and sets the inner text to the type name and appends it to the div
         let typeList = document.createElement('p');
         typeList.classList.add("little-bit-of-margin");
         typeList.innerText = type.type.name;
@@ -459,33 +463,39 @@ function createTypes(types, div)
 //emptys the page and updates it with the new pokemons
 function updatePage()
 {
+    //empties the page
     pokemonContainer.innerHTML = '';
 }
-
-
+//gets the pokemon search button and adds an event listener to it and calls searchPokemon
 document.getElementById('pokemon-search').addEventListener("click", searchPokemon);
 
 //SEARCH FUNCTIONALITY
 function searchPokemon()
 {
+    //gets the input from the search bar
     let name = document.getElementById("pokemon-search-name").value
+    //checks if name is empty
     if(name != '')
     {
+        //gets the pokemon from the api
         fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+        //converts the response to json
         .then(response => response.json())
+        //parse the json
         .then(function(pokemondata)
         {
             console.log(pokemondata);
+            //clears the page and updates it with the new pokemon
             updatePage();
             render(pokemondata);
         })
     }
     else
     {
+        //alerts the user that the search bar is empty
         window.alert("Please enter a name of a pokemon!");
         alert("Please enter a name of a pokemon")
     }
-    console.log(name);
 }   
 
 //AUTO COMPLETE FUNCTIONALITY
