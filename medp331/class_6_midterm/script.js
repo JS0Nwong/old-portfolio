@@ -4,6 +4,31 @@ const pokemonContainer = document.getElementById("content-container");
 //ARRAY FOR TO STORE ALL THE POKEMON NAMES
 let entirePokemonArray = [];
 
+/*
+    Four main parts to my website:
+        - The search bar
+            - The search bar is a search bar that allows the user to search for a pokemon by name
+            - I get the pokemon name by getting the value of the input field and storing it in a variable
+            - I then call the API with the pokemon name and display the response on the page
+            - The auto complete feature is implemented using an array of pokemon names that I store in entirePokemonArray when I call fetchPokemons()
+        - The pokemon cards
+            - The pokemon cards are the cards that display the information of the pokemon
+            - Dynamically created by fetching the data from the API and calling the render function
+            - Each pokemon is passsed through the render function and then appended to the pokemonContainer
+        - The card popup
+            - The card popup is the popup that displays the more detailed information of the pokemon when the user clicks on a card
+            - It is a template literal that I made and it displays the information of the pokemon
+            - Also made helper functions to get the moves and the evolution tree of the pokemon
+                - Getting the evolution tree also required helper functions to get the evolutions of the pokemon
+                - First I needed to get the species of the pokemon. Then I needed to get the evolution chain of the pokemon then I was able to get the evolution details of the pokemon as well
+            - I used the getMoves() function to get the moves of the pokemon. It iterates through the moves and appends it one by one to #move-row
+        - The filter bar
+            - The filter bar allows the user to filter the pokemon cards by what region they are from
+            - I implemented it by having an onclick event that fetches the pokemon by calling the api with a limit and an offset value
+            - It gets the data then updates the page with the new pokemon cards
+*/
+
+//const color object to store the colors of the types
 const colors = {
     normal:'#A6A86D',
     fire:'#FF7B25',
@@ -168,9 +193,10 @@ document.getElementById('filter-all').addEventListener("click", function()
     updatePage();
 })
 
+//fetches all the pokemons and stores them in the entirePokemonArray and calls fetchData() to convert the data to json
 const fetchPokemons = async() =>
 {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=151') // CHANGE THE LIMIT BACK TO 898 LATER 
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=898') //gets all 898 pokemons
      .then(response => response.json())
      .then(function(allpokemon)
      {
@@ -182,6 +208,7 @@ const fetchPokemons = async() =>
     })
 }
 
+//fetches the data of the pokemon and converts it to a json object then calls render to display the pokemon
 function fetchData(pokemon)
 {
     let url = pokemon.url;
@@ -194,6 +221,7 @@ function fetchData(pokemon)
     })
 }
 
+//renders the pokemon card and displays it on the screen
 function render(data)
 {
     const mainTypes = Object.keys(colors);
@@ -244,6 +272,7 @@ Made template card in HTML and put it in a template literal. Gets and displays i
 */
 function cardPopup(pokemon)
 {
+    //maps through the pokemon types and abilites and joins them together with a comma
     const type = pokemon.types.map(type => type.type.name).join(", ");   
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
@@ -251,6 +280,7 @@ function cardPopup(pokemon)
     getSpecies(pokemon.id);
     getMoves(pokemon.id);
 
+    //template literal to be displayed when the user clicks on a pokemon
     const htmlString = ` 
     <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()"><i class="fas fa-times"></i></button> 
@@ -423,11 +453,12 @@ function getEvolutionDetails(array)
                 <p>Level: ${array[i].min_level}</p>
             </div>
             `;
-
+            //if we are not at the end of the array, append the div to the page
             if(i + 1 != array.length)
             {
                 $('#evolutions').append(div);
             }
+            //if we are at the end of the array, append the end div
             else if(i + 1 == array.length)
             {
                 $('#evolutions').append(endDiv)
@@ -513,12 +544,14 @@ function autocomplete(input, array)
         }
         currentFocus = -1;
 
+        //creates a a div element and sets its id to autocomplete-list and a class of autocomplete-elements
         a = document.createElement("div");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-elements");
 
         this.parentNode.append(a);
 
+        //for each element in the array, create a div element and set its inner text to the element and append it to the div
         for(i = 0; i < array.length; i++)
         {
             if(array[i].substr(0, val.length).toLowerCase() == val.toLowerCase())
@@ -536,6 +569,9 @@ function autocomplete(input, array)
         }
     });
 
+    //checks for key presses and if the key pressed is the down arrow, it will increase the currentFocus variable 
+    //and if the key pressed is the up arrowit will decrease the currentFocus variable
+    //and if the key pressed is the enter key, it will select the currentFocus variable and close the list
     input.addEventListener("keydown", function(e)
     {
         var x = document.getElementById(this.id + "autocomplete-list");
@@ -564,6 +600,7 @@ function autocomplete(input, array)
         }
     });
 
+    //function to add active class to the current element
     function addActive(x)
     {
         if(!x) return false;
@@ -573,6 +610,7 @@ function autocomplete(input, array)
         x[currentFocus].classList.add("autocomplete-active");
     }
 
+    //function to remove the active class from all elements
     function removeActive(x)
     {
         for(let i = 0; i < x.length; i++)
@@ -581,6 +619,7 @@ function autocomplete(input, array)
         }
     }
 
+    //function to close all lists in the document
     function closeAllLists(element)
     {
         var x = document.getElementsByClassName("autocomplete-elements");
@@ -593,16 +632,20 @@ function autocomplete(input, array)
         }
     }
 
+    //event listener to close the list if the user clicks outside of the input
     document.addEventListener("click", function(e)
     {
         closeAllLists(e.target);
     });
 }
 
+
+//creates an onscroll event listener and calls the function scrollFunction when the user scrolls the page
 window.onscroll = function(){
     scrollFunction();
 }
 
+//check if the user has scroolled beyongs 1000px and if so, adds the the scroll to top button on the page
 function scrollFunction(){
     if(document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000)
     {
@@ -619,7 +662,7 @@ document.getElementById("scroll-top").addEventListener("click", function(){
     document.documentElement.scrollTop = 0;
 })
 
-
+//calls fecthPokemon to get all the pokemons in the list
 fetchPokemons();
 autocomplete(document.getElementById('pokemon-search-name'), entirePokemonArray);
 
