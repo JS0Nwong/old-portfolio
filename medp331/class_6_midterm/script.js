@@ -21,7 +21,8 @@ let entirePokemonArray = [];
             - Also made helper functions to get the moves and the evolution tree of the pokemon
                 - Getting the evolution tree also required helper functions to get the evolutions of the pokemon
                 - First I needed to get the species of the pokemon. Then I needed to get the evolution chain of the pokemon then I was able to get the evolution details of the pokemon as well
-            - I used the getMoves() function to get the moves of the pokemon. It iterates through the moves and appends it one by one to #move-row
+                - I created a getMoves() function to get the moves of the pokemon. It iterates through the moves and appends it one by one to #move-row
+                - All of this information is then appended to the template literal
         - The filter bar
             - The filter bar allows the user to filter the pokemon cards by what region they are from
             - I implemented it by having an onclick event that fetches the pokemon by calling the api with a limit and an offset value
