@@ -27,6 +27,10 @@ let entirePokemonArray = [];
             - The filter bar allows the user to filter the pokemon cards by what region they are from
             - I implemented it by having an onclick event that fetches the pokemon by calling the api with a limit and an offset value
             - It gets the data then updates the page with the new pokemon cards
+
+    Some bugs I found:
+        - The order the pokemon cards are displayed is not in the order they are in the API sometimes
+        - The order of the evolution tree is not in the order they are in the API sometimes
 */
 
 //const color object to store the colors of the types
@@ -278,10 +282,12 @@ function cardPopup(pokemon)
     const statValues = pokemon.stats.map(stat => stat.base_stat);
     const ability = pokemon.abilities.map(ability => ability.ability.name).join(', ');
 
+    //calls these helper functions to get the moves and species of the pokemon
     getSpecies(pokemon.id);
     getMoves(pokemon.id);
 
     //template literal to be displayed when the user clicks on a pokemon
+    //appends API data to the template literal
     const htmlString = ` 
     <div class="popup container-fluid"> 
         <button class = "close-button" id="closeBtn" onclick="closePopup()"><i class="fas fa-times"></i></button> 
@@ -341,6 +347,7 @@ function cardPopup(pokemon)
             </div>
         </div> 
     </div> `;
+    //appends the template literal to the body
     pokemonContainer.innerHTML = htmlString + pokemonContainer.innerHTML;
 }
 
