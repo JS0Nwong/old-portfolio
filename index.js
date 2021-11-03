@@ -10,9 +10,9 @@ const navLinks = document.querySelector('.nav-links');
 const menuLines = document.querySelectorAll('.menu-line');
 const links = document.querySelectorAll(".nav-links li");
 
-const changeTheme = document.getElementById("colorChange");
+// /const changeTheme = document.getElementById("colorChange");
 
-changeTheme.addEventListener("click", lightMode);
+// /changeTheme.addEventListener("click", lightMode);
 
 //CSS LOADER
 window.onload = function()
