@@ -10,7 +10,6 @@
     --dark-gray: #393b3b;
     --highlight-color: #c87e74;
     --lighter-highlight-color: #eeadb5;
-    cursor: none;
 }
 @font-face {
     font-family: Keira;
@@ -21,12 +20,17 @@
     src: url("./Fonts/MonumentExtended-FreeForPersonalUse/MonumentExtended-Regular.otf") format("opentype");
 }
 /****SCROLL BAR AND CURSOR****/
+html
+{
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
 body
 {
     font-family: Keira, Arial, Helvetica, sans-serif;
     background: var(--lighter-highlight-color);
     scroll-behavior: smooth;
-    transition: .2s ease;
+    transition: .2s ease;;
 }
 .cursor
 {
@@ -102,15 +106,6 @@ body
     background-color: transparent;
     font-weight: 600;
 }
-/*************BANNERS*************/
-.banner-text
-{
-    font-size: 15rem;
-    color: var(--highlight-color);
-    mix-blend-mode: difference;
-}
-
-
 /********MAIN PAGE********/
 .landing-name
 {
@@ -147,7 +142,7 @@ body
 {
     position: fixed;
     bottom: 50%;
-    right: 0;
+    left: 0;
     mix-blend-mode: difference;
     color: var(--highlight-color);
 }
@@ -164,7 +159,7 @@ body
     display: block;
     position: absolute;
     top: 0;
-    right: 9px;
+    left: 9px;
     width: 6px;
     height: 100%;
     background-color: var(--background-color);
@@ -186,18 +181,71 @@ body
     mix-blend-mode: difference;
 }
 /************WORKS SECTION**************/
-.works-container
+.menu
 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 100vh;
+    user-select: none;
+    counter-reset: menucounter;
+}
+.menu-item
+{
+    position: relative;
+    text-transform: uppercase;
+    display: flex;
+    color: var(--highlight-color);
     mix-blend-mode: difference;
 }
-.work
+.menu-item::before
 {
-    font-size: 30rem;
-    color: var(--highlight-color);
+    counter-increment: menucounter;
+    content: counters(menucounter, ".", decimal-leading-zero);
+    position: absolute;
+    left: -35px;
+    top: 40px;
+    font-size: 2.5rem;
 }
-.number
+.menu-item-text
 {
-    font-size: 3.5rem;
+    pointer-events: none;
+    display: block;
+    line-height: 1;
+    position: relative;
+    font-size: 25.5rem;
+}
+
+.menu-item > div:nth-child(1) span {
+    will-change: transform;
+    transform-style: preserve-3d;
+    transition: 0.5s;
+    transition-delay: calc(0.05s * var(--index));
+    transform-origin: bottom;
+    display: inline-block;
+}
+
+.menu-item > div:nth-child(2) span {
+    will-change: transform;
+    transform-style: preserve-3d;
+    transition: 0.5s;
+    transition-delay: calc(0.05s * var(--index));
+    transform-origin: top;
+    display: inline-block;
+    transform: translate3d(0, 100%, 0) rotateX(-90deg);
+}
+
+.menu-item:hover > div:nth-child(1) span {
+    transform: translate3d(0, -100%, 0) rotateX(90deg);
+}
+
+.menu-item:hover > div:nth-child(2) span {
+    transform: translate3d(0, 0%, 0) rotateX(0deg);
+}
+span
+{
+    font-size: 20.5rem;
 }
 /*************ABOUT SECTION****************/
 .about-me
@@ -213,19 +261,37 @@ body
     align-items: center;
     justify-content: center;
     height: 100vh;
+    user-select: none;
+    counter-reset: menucounter;
 }
+
 .contact-text
 {
     font-size: 4rem;
+    color: var(--lighter-highlight-color);
     mix-blend-mode: difference;
-    color: var(--dark-gray);
 }
 .email a
 {
-    font-size: 9rem;
+    font-size: 8rem;
     color: var(--highlight-color);
     mix-blend-mode: difference;
     text-decoration: none;
+}
+.email-text
+{
+    font-size: 4rem;
+}
+.email-text::before
+{
+    height: 99px;
+    width: 100%;
+    position: absolute;
+    background-color: var(--background-color);
+}
+.email::before
+{
+    content: "";
 }
 /*********FOOTER*********/
 .footer-links
@@ -256,10 +322,32 @@ body
     mix-blend-mode: difference;
 }
 /*****ANIMATED BANNER******/
-.banner
+/* .scroll
 {
-    display: inline-block;
+    width: 100vw;
+    display: flex;
+}
+.scroll div
+{
+    font-size: 4rem;
     white-space: nowrap;
+    text-transform: uppercase;
+    animation: animate 10s linear infinite;
+    mix-blend-mode: difference;
+}
+@keyframes animate {
+    0%
+    {
+        transform: translateX(0);
+    }
+    100%
+    {
+        transform: translateX(50%);
+    }
+}
+.banner-text
+{
+    background-color: var(--background-color);
 }
 .animated-banner
 {
@@ -267,7 +355,7 @@ body
     font-size: 10rem;
     font-weight: 100;
     letter-spacing: 15px;
-}
+} */
 
 ::-webkit-scrollbar
 {
@@ -285,4 +373,28 @@ body
 .links-list-dark::after
 {
     background-color: var(--lighter-highlight-color);
+}
+
+/*******************************************MY WORKS PAGE*************************************************/
+.works-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    user-select: none;
+    scroll-snap-align: start;
+}
+.works-link
+{
+    color: var(--highlight-color);
+    text-decoration: none;
+    mix-blend-mode: difference;
+    font-size: 10rem;
+}
+.works-link:hover
+{
+    color: var(--highlight-color);
+    text-decoration: none;
 }
