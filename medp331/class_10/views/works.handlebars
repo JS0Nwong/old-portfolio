@@ -1,5 +1,25 @@
 {{#each works}}
-<div class="container text-center">
-<div><h3><a href="{{this.link}}">{{ this.title}}</a></h3></div>
-<div><img src="{{this.image}}"/></div>
+<div class="container text-center works-wrapper">
+    <section class="works-container">
+        <div class="works-info">
+            <h3 class="works-page-title">
+                <a class="works-link" href="{{this.link}}">{{ this.title}}</a>
+            </h3>
+        </div>
+    </section>
+    <section class="works-container color-1">
+        <div class="works-info">
+            <h3 class="works-page-title ">
+                <a class="works-link" href="{{this.link}}">{{ this.title}}</a>
+            </h3>
+        </div>
+    </section>
+    <section class="works-container color-2">
+        <div class="works-info">
+            <h3 class="works-page-title">
+                <a class="works-link" href="{{this.link}}">{{ this.title}}</a>
+            </h3>
+        </div>
+    </section>
+    <div><img src="{{this.image}}" /></div>
 {{/each}}

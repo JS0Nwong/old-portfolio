@@ -1,7 +1,11 @@
 <div class="container text-center">
-<div><h3><a href="{{work.link}}">{{ work.title}}</a></h3></div>
-<div><img src="{{work.image}}"/></div>
+    <section class = "works-container">
+        <div class = "my-work">
+            <h3 class = "works-page-title"><a href="{{work.link}}">{{ work.title}}</a></h3>
+        </div>
+        <div><img src="{{work.image}}" /></div>
+    </section>
 </div>
-{{# if nextPage }}
-<a href="/works/{{nextPage}}">Next</a>
+{{#if nextPage }}
+    <a href="/works/{{nextPage}}">Next</a>
 {{/if}}

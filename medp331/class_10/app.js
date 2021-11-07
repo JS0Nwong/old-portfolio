@@ -13,7 +13,13 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
-let listOfWorks = [{title: 'My Very Special Work', link: 'https://zombo.com',}] //image: '/img/panda.jpg'
+let listOfWorks = [
+  {title: 'My Very Special Work', link: 'https://zombo.com',},
+  {title: 'My Other Work', link: 'https://zombo.com',},
+  {title: 'My Third Work', link: 'https://zombo.com',},
+  {title: 'My Fourth Work', link: 'https://zombo.com',},
+  {title: 'My Fifth Work', link: 'https://zombo.com',},
+] //image: '/img/panda.jpg'
 // if you want to add your work to a partial
 // middleware to add list data to context
 app.use(function(req, res, next){
