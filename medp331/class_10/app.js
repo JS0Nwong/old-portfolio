@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 
 let listOfWorks = [
   {title: 'My Very Special Work', link: 'https://zombo.com',},
-  {title: 'My Other Work', link: 'https://zombo.com',},
+  {title: 'My Second Work', link: 'https://zombo.com',},
   {title: 'My Third Work', link: 'https://zombo.com',},
   {title: 'My Fourth Work', link: 'https://zombo.com',},
   {title: 'My Fifth Work', link: 'https://zombo.com',},
@@ -37,7 +37,7 @@ app.get('/', function(req, res) {
 
 app.get('/about', function(req,res){
 	res.render('about', {
-		moreInfo: moreInfo
+		// moreInfo: moreInfo
 	});
 });
 
